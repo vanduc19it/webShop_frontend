@@ -42,7 +42,7 @@ const Login = ({location, history}) => {
           <input type="password" placeholder="Password" value={password} onChange={(e)=> setPassword(e.target.value)} />
           <button type="submit">Login</button>
           <p>
-            <Link to={redirect ? `/redirect?redirect=${redirect}` :"/register"}>Create Account</Link>
+            <Link to={redirect ? `/register?redirect=${redirect}` :"/register"}>Create Account</Link>
           </p>
         </form>
       </div>
