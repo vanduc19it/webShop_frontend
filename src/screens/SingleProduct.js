@@ -1,26 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./../components/Header";
 import Rating from "../components/homeComponents/Rating";
 import { Link } from "react-router-dom";
 import Message from "./../components/LoadingError/Error";
-import products from "../data/Products";
-
+import { useDispatch, useSelector } from "react-redux";
+import { listProductDetail } from "../Redux/Actions/ProductActions";
+import Loading from "./../components/LoadingError/Loading";
+const baseURL = "http://localhost:5000/";
 const SingleProduct = ({ match }) => {
-  const product = products.find((p) => p._id === match.params.id);
+ 
+  const productId = match.params.id;
+ 
+  const dispatch = useDispatch();
+
+  const productDetail = useSelector((state)=> state.productDetail)
+  const {loading, error, product} = productDetail;
+
+  useEffect(()=> {
+    
+    dispatch(listProductDetail(productId))
+  }, [dispatch, productId]);
+
+
   return (
     <>
       <Header />
       <div className="container single-product">
+      {
+        loading ? (
+          <Loading/>
+        )
+        : error ? (
+          <Message variant="alert-danger">{error}</Message>
+        )
+        : (
+          <>
+          
         <div className="row">
           <div className="col-md-6">
             <div className="single-image">
-              <img src={product.image} alt={product.name} />
+              <img src={`${baseURL}images/product/${product.imageProduct}`} alt={product.name} />
             </div>
           </div>
           <div className="col-md-6">
             <div className="product-dtl">
               <div className="product-info">
-                <div className="product-name">{product.name}</div>
+                <div className="product-name">{product.nameProduct}</div>
               </div>
               <p>{product.description}</p>
 
@@ -121,6 +146,9 @@ const SingleProduct = ({ match }) => {
             </div>
           </div>
         </div>
+          </>
+        )
+      }
       </div>
     </>
   );
