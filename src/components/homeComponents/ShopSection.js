@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import Pagination from "./pagination";
-import products from "../../data/Products";
+// import products from "../../data/Products";
+import axios from "axios";
 
+const baseURL = "http://localhost:5000/";
 const ShopSection = () => {
+
+  const [products, setProducts] = useState([])
+
+  useEffect(() =>{
+    const fetchproducts = async () => {
+      const {data} = await axios.get(`${baseURL}all-product/all`)
+      setProducts(data)
+    }
+    fetchproducts()
+  },[])
   return (
     <>
       <div className="container">
@@ -20,14 +32,14 @@ const ShopSection = () => {
                     <div className="border-product">
                       <Link to={`/products/${product._id}`}>
                         <div className="shopBack">
-                          <img src={product.image} alt={product.name} />
+                          <img src={`./product/1666016252207-hoodie.jpg`} alt={product.name} />
                         </div>
                       </Link>
 
                       <div className="shoptext">
                         <p>
                           <Link to={`/products/${product._id}`}>
-                            {product.name}
+                            {product.nameProduct}
                           </Link>
                         </p>
 
