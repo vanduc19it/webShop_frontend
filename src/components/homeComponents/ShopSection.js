@@ -32,7 +32,7 @@ const ShopSection = () => {
                     <div className="border-product">
                       <Link to={`/products/${product._id}`}>
                         <div className="shopBack">
-                          <img src={`./product/1666016252207-hoodie.jpg`} alt={product.name} />
+                          <img src={`${baseURL}images/product/${product.imageProduct}`} alt={product.name} />
                         </div>
                       </Link>
 
