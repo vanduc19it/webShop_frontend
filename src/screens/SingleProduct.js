@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import ReactHtmlParser from "react-html-parser";
+
 import Header from "./../components/Header";
 import Rating from "../components/homeComponents/Rating";
 import { Link } from "react-router-dom";
@@ -47,7 +49,8 @@ const SingleProduct = ({ match }) => {
               <div className="product-info">
                 <div className="product-name">{product.nameProduct}</div>
               </div>
-              <p>{product.description}</p>
+              
+              <div>{ReactHtmlParser(product.description)}</div>
 
               <div className="product-count col-lg-7 ">
                 <div className="flex-box d-flex justify-content-between align-items-center">
