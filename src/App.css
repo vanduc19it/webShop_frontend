@@ -463,6 +463,11 @@ textarea:focus {
   font-size: 17px;
   background-color: #e5fee9;
 }
+.form #dropdown {
+  padding: 13px 10px;
+  font-size: 17px;
+  background-color: #e5fee9;
+}
 .form-container button {
   padding: 15px 0;
   border: 0px;
