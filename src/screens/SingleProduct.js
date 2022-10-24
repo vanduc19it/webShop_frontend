@@ -41,7 +41,7 @@ const SingleProduct = ({ match }) => {
         <div className="row">
           <div className="col-md-6">
             <div className="single-image">
-              <img src={`${baseURL}images/product/${product.imageProduct}`} alt={product.name} />
+              <img src={`${baseURL}images/products/${product.imageProduct}`} alt={product.name} />
             </div>
           </div>
           <div className="col-md-6">

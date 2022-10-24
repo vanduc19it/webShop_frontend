@@ -72,7 +72,7 @@ const Header = () => {
                       <i class="fas fa-user"></i>
                       </button>
                       <div className="dropdown-menu">
-                        <Link className="dropdown-item" to="/profile">
+                        <Link className="dropdown-item" to={`/profile/${userInfo.idUser}`} >
                           Profile
                         </Link>
 
@@ -163,7 +163,7 @@ const Header = () => {
                     Hi, {userInfo.username}
                     </button>
                     <div className="dropdown-menu">
-                    <Link className="dropdown-item" to="/profile">
+                    <Link className="dropdown-item" to={`/profile/${userInfo.idUser}`}>
                       Profile
                     </Link>
 
