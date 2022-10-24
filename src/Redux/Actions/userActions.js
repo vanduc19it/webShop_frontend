@@ -77,10 +77,27 @@ export const logout = () => (dispatch) => {
     dispatch({type: USER_LOGOUT});
     document.location.href= "/login";
 }
-
+// convert buffer base64 to file
+const  dataURLtoFile = (dataurl, filename) => {
+ 
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), 
+        n = bstr.length, 
+        u8arr = new Uint8Array(n);
+        
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], filename, {type:mime});
+}
 //update userimage
 export const updateuserimage = (idUser, avatar) => async (dispatch, getState) => {
     console.log(idUser, avatar)
+    const imageFile = dataURLtoFile(avatar, "user.png" ); 
+    const formData = new FormData();
+    formData.append("avatarImg", imageFile) ; 
     try {
         dispatch({type: USER_UPDATE_USER_IMAGE_REQUEST});
         const {
@@ -92,7 +109,7 @@ export const updateuserimage = (idUser, avatar) => async (dispatch, getState) =>
                 Authorization: `${userInfo.token}`
             }
         }
-        const {data} = await axios.post(`${baseURL}update-image-user/${idUser}`, {avatarImg: avatar}, config);
+        const {data} = await axios.post(`${baseURL}update-image-user/${idUser}`, formData, config);
         dispatch({type:USER_UPDATE_USER_IMAGE_SUCCESS, payload:data})
         console.log(data)
         localStorage.setItem("userInfo", JSON.stringify(data))
