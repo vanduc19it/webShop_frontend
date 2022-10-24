@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
 import ProfileTabs from "../components/profileComponents/ProfileTabs";
+import UpdatePassword from "../components/profileComponents/UpdatePassword";
 import { logout, updateuserimage } from "../Redux/Actions/userActions";
 import Orders from "./../components/profileComponents/Orders";
 import moment from "moment";
@@ -42,6 +43,7 @@ const ProfileScreen = ({match}) => {
     setImagecrop(null)
   }
   const saveImage = ()=> {
+
     setUserImage(imagecrop)
     setDialog(false)
    
@@ -120,6 +122,18 @@ const ProfileScreen = ({match}) => {
                     Profile Settings
                   </button>
                   <button
+                    class="nav-link"
+                    id="v-pills-password-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#v-pills-password"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-pills-password"
+                    aria-selected="true"
+                  >
+                    Change Password
+                  </button>
+                  <button
                     class="nav-link d-flex justify-content-between"
                     id="v-pills-profile-tab"
                     data-bs-toggle="pill"
@@ -149,6 +163,14 @@ const ProfileScreen = ({match}) => {
               aria-labelledby="v-pills-home-tab"
             >
               <ProfileTabs />
+            </div>
+            <div
+              class="tab-pane fade show"
+              id="v-pills-password"
+              role="tabpanel"
+              aria-labelledby="v-pills-password-tab"
+            >
+              <UpdatePassword />
             </div>
             <div
               class="tab-pane fade"
