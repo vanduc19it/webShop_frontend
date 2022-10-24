@@ -1,10 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
 import ProfileTabs from "../components/profileComponents/ProfileTabs";
+import { logout, updateuserimage } from "../Redux/Actions/userActions";
 import Orders from "./../components/profileComponents/Orders";
+import moment from "moment";
+import { Dialog } from 'primereact/dialog';
+import Avatar from "react-avatar-edit"
+import { Button } from 'primereact/button';
+import 'primereact/resources/themes/saga-blue/theme.css'
+import 'primereact/resources/primereact.min.css'
+import 'primeicons/primeicons.css'
 
-const ProfileScreen = () => {
+const baseURL = "http://localhost:5000/";
+const ProfileScreen = ({match}) => {
   window.scrollTo(0, 0);
+
+  // const idUser = match.params.id;
+  // console.log(idUser);
+  
+  const dispatch = useDispatch()
+
+  const userLogin = useSelector((state)=> state.userLogin)
+  const {userInfo} = userLogin;
+  
+  const logoutHandler = () => {
+    dispatch(logout())
+    console.log("logout sucess")
+  }
+  const [dialog, setDialog] = useState(false);
+  const [userImage, setUserImage] = useState(`${baseURL}images/users/${userInfo.avatar}`);
+  const [imagecrop, setImagecrop] = useState("");
+
+  const userUpdateImage = useSelector((state) => state.userUpdateImage);
+  const {loading: updateLoading} = userUpdateImage;
+
+  const onCrop=(view)=> {
+    setImagecrop(view)
+  }
+  const onClose= ()=> {
+    setImagecrop(null)
+  }
+  const saveImage = ()=> {
+    setUserImage(imagecrop)
+    setDialog(false)
+   
+    dispatch(updateuserimage(userInfo.idUser,imagecrop))
+  }
+  // console.log(userInfo.idUser,userImage)
+
+  
+
   return (
     <>
       <Header />
@@ -15,14 +61,40 @@ const ProfileScreen = () => {
               <div className="author-card-cover"></div>
               <div className="author-card-profile row">
                 <div className="author-card-avatar col-md-5">
-                  <img src="./images/user.png" alt="userprofileimage" />
+
+                  {
+                    userInfo.avatar ?
+                    (
+                      <img src={userImage} alt="userprofileimage" 
+                            onMouseOver={e => e.currentTarget.src = "https://bst.icons8.com/wp-content/uploads/2022/09/new_moose.webp"}
+                            onMouseOut={e => e.currentTarget.src= `${baseURL}images/users/${userInfo.avatar}` } 
+                            onClick={() => setDialog(true)}
+                            />
+                    )
+                    : (
+                      <img src={`${baseURL}images/users/avatar-default.jpg`} alt="userprofileimage" />
+                    )
+                  }
+
+                  <Dialog visible={dialog} header= {()=>(
+                    <p>Update UserImage</p>
+                  )}
+                  onHide={() =>setDialog(false)} 
+                  breakpoints={{'960px': '75vw', '640px': '100vw'}} style={{width: '50vw'}}
+                  >
+                    <Avatar width={400} height={300} onClose= {onClose} onCrop={onCrop}/>
+                    <Button onClick={saveImage} label="Save" icon="pi pi-check" />
+                  </Dialog>
+
+
+                 
                 </div>
                 <div className="author-card-details col-md-7">
                   <h5 className="author-card-name mb-2">
-                    <strong>Admin Doe</strong>
+                    <strong>{userInfo.username}</strong>
                   </h5>
                   <span className="author-card-position">
-                    <>Joined Dec 12 2021</>
+                    <>Joined {moment(userInfo.createAt).format("LL")}</>
                   </span>
                 </div>
               </div>
