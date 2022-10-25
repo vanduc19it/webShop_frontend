@@ -42,6 +42,7 @@ const ProfileScreen = ({match}) => {
   const onClose= ()=> {
     setImagecrop(null)
   }
+  
   const saveImage = ()=> {
 
     setUserImage(imagecrop)

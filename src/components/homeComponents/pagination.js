@@ -1,37 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Pagination = () => {
+const Pagination = (props) => {
+  const {pages, page} = props;
+  console.log(pages,typeof page);
+
   return (
-    <nav>
+    pages > 1 && (
+      <nav>
       <ul className="pagination justify-content-center">
-        <li className={`page-item active`}>
-          <Link className="page-link" to={"#"}>
-            1
-          </Link>
-        </li>
-        <li className={`page-item`}>
-          <Link className="page-link" to={"#"}>
-            2
-          </Link>
-        </li>
-        <li className={`page-item`}>
-          <Link className="page-link" to={"#"}>
-            3
-          </Link>
-        </li>
-        <li className={`page-item`}>
-          <Link className="page-link" to={"#"}>
-            4
-          </Link>
-        </li>
-        <li className={`page-item`}>
-          <Link className="page-link" to={"#"}>
-            5
-          </Link>
-        </li>
+        {[...Array(pages).keys()].map((x) => (
+          <li className={`page-item ${x + 1 === Number(page) ? "active" : ""}`} key={x + 1}>
+            <Link className="page-link" to={`/page/${x + 1}`}>
+              {x + 1}
+            </Link>
+          </li>
+          ))}
       </ul>
     </nav>
+    )
+   
   );
 };
 
