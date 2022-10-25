@@ -2,21 +2,43 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import Pagination from "./pagination";
-// import products from "../../data/Products";
 import axios from "axios";
-
+import { useDispatch, useSelector } from "react-redux";
+import { listProduct } from "../../Redux/Actions/ProductActions";
+import {useHistory} from "react-router-dom"
 const baseURL = "http://localhost:5000/";
-const ShopSection = () => {
 
-  const [products, setProducts] = useState([])
+const ShopSection = (props) => {
+  const {pagenumber} = props;
+  console.log(pagenumber)
+  // const [products, setProducts] = useState([])
+  const dispatch = useDispatch();
 
-  useEffect(() =>{
-    const fetchproducts = async () => {
-      const {data} = await axios.get(`${baseURL}all-product/all`)
-      setProducts(data)
-    }
-    fetchproducts()
-  },[])
+  const productList = useSelector((state)=> state.productList);
+  const {loading, error, products, page, pages} = productList;
+
+
+  
+  const [totalPage, setTotalPage] = useState({});
+  useEffect(()=> {
+    const fetchTotalPage = async () => {
+      const {data} = await axios.get(`${baseURL}count-all-product`);
+      setTotalPage(data.result.total_page);
+    };
+    fetchTotalPage();
+  },[]);
+
+  console.log(totalPage)
+  useEffect(()=> {
+    dispatch(listProduct(pagenumber))
+  },[dispatch, pagenumber])
+
+console.log()
+  const history = useHistory();
+  
+  if(pagenumber > totalPage || Number(pagenumber) === 'NaN') history.push("/notfound")
+
+
   return (
     <>
       <div className="container">
@@ -53,7 +75,7 @@ const ShopSection = () => {
                   </div>
                 ))}
                 {/* Pagination */}
-                <Pagination />
+                <Pagination pages={totalPage} page={pagenumber} />
               </div>
             </div>
           </div>

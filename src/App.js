@@ -14,6 +14,8 @@ import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import NotFound from "./screens/NotFound";
+import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const App = () => {
   
@@ -21,6 +23,8 @@ const App = () => {
     <Router>
       <Switch>
         <Route path="/" component={HomeScreen} exact />
+        
+        <Route path="/page/:pagenumber" component={HomeScreen}  />
         <Route path="/products/:id" component={SingleProduct} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />

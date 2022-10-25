@@ -4,10 +4,11 @@ import axios from "axios"
 const baseURL = "http://localhost:5000/";
 
 //product list
-export const listProduct = (keyword="", pageNumber="") => async (dispatch) => {
+export const listProduct = (pageNumber="") => async (dispatch) => {
+    console.log(pageNumber)
     try {
         dispatch({type: PRODUCT_LIST_REQUEST});
-        const {data} = await axios.get(`${baseURL}all-product/${pageNumber}`);
+        const {data} = await axios.get( `${baseURL}all-product/${pageNumber}`)
         console.log(data)
         dispatch({type:PRODUCT_LIST_SUCCESS, payload:data})
         
@@ -18,9 +19,9 @@ export const listProduct = (keyword="", pageNumber="") => async (dispatch) => {
             error.response && error.response.data.message 
             ? error.response.data.message
             : error.message,
-        })
+        });
     }
-}
+};
 
 //product theo id
 export const listProductDetail = (id) => async (dispatch) => {
