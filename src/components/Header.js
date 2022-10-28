@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { searchProduct } from "../Redux/Actions/ProductActions";
 import { logout } from "../Redux/Actions/userActions";
 
 const Header = () => {
   // const cart = useSelector((state)=> state.cart)
   // const {cartItems} = cart;
+  const [keyword, setKeyword] = useState();
+  
 
   const dispatch = useDispatch()
+  let history = useHistory();
+
+  
+
+  // const productList = useSelector((state)=> state.productList);
+  // const {products} = productList;
+  
+
+  // const productSearch = useSelector((state)=> state.productSearch);
+  // const {productsSearch} = productSearch;
+  // console.log(productsSearch)
+
+  
+
+  // localStorage.setItem("handleproducts", JSON.stringify(products));
+
+  
 
   const userLogin = useSelector((state)=> state.userLogin)
   const {userInfo} = userLogin;
@@ -16,6 +37,21 @@ const Header = () => {
     dispatch(logout())
     console.log("logout sucess")
   }
+
+  const submitHandler =(e) => {
+    e.preventDefault()
+    // dispatch(searchProduct(keyword))
+    // localStorage.setItem("handleproducts", JSON.stringify(productsSearch));
+    if(keyword.trim()) {  
+      history.push(`/search/${keyword}`)
+    }else {
+      history.push("/")
+      // setHandleProduct(products)
+    }
+  } 
+  // var handleproducts = JSON.parse(localStorage.getItem("handleproducts"));
+  // console.log(handleproducts)
+  
   return (
     <div>
       {/* Top Header */}
@@ -113,11 +149,12 @@ const Header = () => {
                   </Link>
                 </div>
                 <div className="col-12 d-flex align-items-center">
-                  <form className="input-group">
+                  <form className="input-group" onSubmit={submitHandler}>
                     <input
                       type="search"
                       className="form-control rounded search"
                       placeholder="Search"
+                      onChange={(e)=> setKeyword(e.target.value)}
                     />
                     <button type="submit" className="search-button">
                       search
@@ -137,11 +174,12 @@ const Header = () => {
                 </Link>
               </div>
               <div className="col-md-6 col-8 d-flex align-items-center">
-                <form className="input-group">
+                <form className="input-group" onSubmit={submitHandler}>
                   <input
                     type="search"
                     className="form-control rounded search"
                     placeholder="Search"
+                    onChange={(e)=> setKeyword(e.target.value)}
                   />
                   <button type="submit" className="search-button">
                     search

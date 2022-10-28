@@ -13,10 +13,15 @@ const ProfileTabs = () => {
   const userLogin = useSelector((state)=> state.userLogin)
   const {userInfo} = userLogin;
 
-  const [username, setName] = useState(userInfo.username)
-  const [email, setEmail] = useState(userInfo.email)
-  const [address, setAddress] = useState(userInfo.address)
-  const [gender, setGender] = useState(userInfo.gender)
+  const userDetail = useSelector((state)=> state.userDetail )
+  const {loading, error, user } = userDetail ;
+  
+  
+
+  const [username, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [address, setAddress] = useState("")
+  const [gender, setGender] = useState("")
 
   const [checkpass, setCheckpass] = useState("")
 
@@ -32,13 +37,14 @@ const ProfileTabs = () => {
   const {loading: updateLoading} = userUpdateProfile;
 
   useEffect(()=> {
-    if(userInfo) {
-      setName(userInfo.username)
-      setEmail(userInfo.email)
-      setAddress(userInfo.address)
-      setGender(userInfo.gender)
+    if(user.result) {
+      setName(user.result.username)
+      setEmail(user.result.email)
+      setAddress(user.result.address)
+      setGender(user.result.gender)
     }
-  },[dispatch, userInfo]);
+    
+  },[dispatch, user]);
 
   const GenderItem = [
     {label: 'Male', value: 'Male'},
@@ -53,7 +59,7 @@ const ProfileTabs = () => {
   e.preventDefault();
   if(check) {  
     dispatch(updateUserProfile({idUser: userInfo.idUser, username, address, gender }))
-
+    
    }else{
     
    }
