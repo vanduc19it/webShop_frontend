@@ -105,7 +105,7 @@ export const getUserDetail = (id) => async (dispatch, getState) => {
                 ? error.response.data.message
                 : error.message;
                 if (message === "not author, token failed") {
-                    dispatch(logout)
+                    dispatch(logout())
                 }
         dispatch({ 
             type: USER_DETAIL_FAIL,

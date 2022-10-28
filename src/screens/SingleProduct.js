@@ -6,11 +6,20 @@ import Rating from "../components/homeComponents/Rating";
 import { Link } from "react-router-dom";
 import Message from "./../components/LoadingError/Error";
 import { useDispatch, useSelector } from "react-redux";
-import { listProductDetail } from "../Redux/Actions/ProductActions";
+import { getProductFeedback, listProductDetail } from "../Redux/Actions/ProductActions";
 import Loading from "./../components/LoadingError/Loading";
+// import { Rating } from 'primereact/rating';
+import 'primeicons/primeicons.css';
+import { PRODUCT_CREATE_FEEDBACK_RESET } from "../Redux/Constants/ProductConstants";
+import moment from "moment";
 const baseURL = "http://localhost:5000/";
+
+
 const SingleProduct = ({ match }) => {
- 
+  
+  const [rating, setRating] = useState(0)
+  const [comment, setComment] = useState("")
+
   const productId = match.params.id;
  
   const dispatch = useDispatch();
@@ -18,10 +27,35 @@ const SingleProduct = ({ match }) => {
   const productDetail = useSelector((state)=> state.productDetail)
   const {loading, error, product} = productDetail;
 
+  const userLogin = useSelector((state)=> state.userLogin)
+  const {userInfo} = userLogin;
+
+  const productGetFeedback = useSelector((state)=> state.productGetFeedback)
+  const {feedbacks} = productGetFeedback;
+  
+  
+
+
+  
+
+  const productCreateFeedback = useSelector((state)=> state.productCreateFeedback)
+  const {loading: loadingCreateFeedback, error: errorCreateFeedback, success: successCreateFeedback } = productCreateFeedback;
+
   useEffect(()=> {
-    
+    if(successCreateFeedback) {
+      alert("feedback submitted")
+      setRating(0)
+      setComment("")
+      dispatch({type: PRODUCT_CREATE_FEEDBACK_RESET})
+    }
     dispatch(listProductDetail(productId))
-  }, [dispatch, productId]);
+   
+  }, [dispatch, productId, successCreateFeedback]);
+    
+  useEffect(()=> {
+    dispatch(getProductFeedback(productId))
+  },[dispatch,productId])
+ 
 
 
   return (
@@ -95,22 +129,38 @@ const SingleProduct = ({ match }) => {
         {/* RATING */}
         <div className="row my-5">
           <div className="col-md-6">
-            <h6 className="mb-3">REVIEWS</h6>
-            <Message variant={"alert-info mt-3"}>No Reviews</Message>
-            <div className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">
-              <strong>Admin Doe</strong>
-              <Rating />
-              <span>Jan 12 2021</span>
-              <div className="alert alert-info mt-3">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book
-              </div>
-            </div>
+            <h6 className="mb-3">FEEDBACKS</h6>
+
+            {feedbacks.length === 0 && (
+                <Message variant={"alert-info mt-3"}>No Reviews</Message>
+              )}
+            {feedbacks.map((feedback) => (
+                <div key={feedback._id} className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">
+                  
+                  <img src = {`${baseURL}images/users/${feedback.user.avatar}`} style={{"width": "42px","margin-top":"14px","margin-right":"10px"}} alt={feedback.user.username}/>
+                 
+                  <strong style={{}} >{feedback.user.username}</strong>
+                  <span style={{marginTop:"30px",marginLeft:"-150px","position": "absolute","padding-top":"2px"}}>
+                  <Rating  style={{"transform": "scale(1.6)"}} value={feedback.rate}/>
+                  </span>
+                  
+                 
+                  
+                  <span style={{marginTop:"60px",marginBottom:"30px",marginLeft:"-150px","position": "absolute"}}>{moment(Number(feedback.createAt)).locale("vi").startOf("second").fromNow() }</span>
+                  
+                  <div className="alert alert-info mt-3" style={{}}>
+                   {feedback.comment}
+                  </div>
+                </div>  
+              ))
+            }
+
+           
+            
           </div>
           <div className="col-md-6">
-            <h6>WRITE A CUSTOMER REVIEW</h6>
+            {/* rate */}
+            <h6>ĐỂ LẠI ĐÁNH GIÁ VỀ SẢN PHẨM</h6>
             <div className="my-4"></div>
 
             <form>
@@ -118,12 +168,17 @@ const SingleProduct = ({ match }) => {
                 <strong>Rating</strong>
                 <select className="col-12 bg-light p-3 mt-2 border-0 rounded">
                   <option value="">Select...</option>
-                  <option value="1">1 - Poor</option>
-                  <option value="2">2 - Fair</option>
-                  <option value="3">3 - Good</option>
-                  <option value="4">4 - Very Good</option>
-                  <option value="5">5 - Excellent</option>
+                  <option value="1">1 - Quá thất vọng</option>
+                  <option value="2">2 - Thất vọng</option>
+                  <option value="3">3 - Bình thường</option>
+                  <option value="4">4 - Tốt</option>
+                  <option value="5">5 - Tuyệt vời</option>
                 </select>
+
+                {/* <i className="pi pi-check mr-2"></i>
+                <i className="pi pi-times"></i> */}
+                {/* <Rating value="" onIcon="pi pi-circle-fill" cancel={false}  />
+                <i className="pi pi-spin pi-spinner" style={{'fontSize': '2em'}}></i> */}
               </div>
               <div className="my-4">
                 <strong>Comment</strong>
