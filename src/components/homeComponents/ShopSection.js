@@ -17,8 +17,9 @@ const ShopSection = (props) => {
 
   const productList = useSelector((state)=> state.productList);
   const {loading, error, products, page, pages} = productList;
-
-
+  console.log(products)
+ 
+ 
   
   const [totalPage, setTotalPage] = useState({});
   useEffect(()=> {
@@ -36,18 +37,25 @@ const ShopSection = (props) => {
   const history = useHistory();
   
   if(pagenumber > totalPage || Number(pagenumber) === 'NaN') history.push("/notfound")
- 
+  
+  if(products.length > 0) {
+    console.log("true")
+  }else{
+    console.log("false")
+  }
+
   return (
     <>
-      <div className="container">
+     <div className="container">
         <div className="section">
           <div className="row">
             <div className="col-lg-12 col-md-12 article">
               <div className="shopcontainer row">
-              
-                {products.map((product) => (
+              {products.length > 0 ? 
+              (
+                products.map((product) => (
                   <div
-                    className="shop col-lg-4 col-md-6 col-sm-6"
+                    className="shop col-lg-3 col-md-6 col-sm-6"
                     key={product._id}
                   >
                     <div className="border-product">
@@ -73,8 +81,16 @@ const ShopSection = (props) => {
                     </div>
                   </div>
                 ))
-                }
-               
+            
+
+              ) 
+              :
+              (
+                <h3 style={{"text-align":"center", "margin-bottom":"100px","margin-top":"80px" }}>Không có sản phẩm nào!</h3>
+              )
+              }
+             
+              
                 {/* Pagination */}
                 <Pagination pages={totalPage} page={pagenumber} />
               </div>
@@ -84,6 +100,8 @@ const ShopSection = (props) => {
       </div>
     </>
   );
+ 
+  
 };
 
 export default ShopSection;

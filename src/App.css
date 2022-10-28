@@ -194,6 +194,9 @@ textarea:focus {
 .rating span {
   margin-left: 10px;
 }
+.mt-3 {
+  margin-top:2rem !important;
+}
 /* END OF SHOP */
 
 /* NEWSLATTER */

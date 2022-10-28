@@ -3,6 +3,7 @@
     width: 82%;
     margin: 0 auto;
     margin-top: 50px;
+    margin-bottom: 50px;
     box-shadow: 1px 1px 1px #ccc;
   }
   
@@ -11,7 +12,7 @@
   }
   .slick-slide > div {
     margin: 0 0px;
-    height: 250px; 
+    height: 230px; 
     
   }
 
@@ -23,7 +24,7 @@
    
     border-radius: 0rem;
     overflow: hidden;
-    height: 250px;
+    height: 230px;
     color: #fff;
     cursor: pointer;
   
