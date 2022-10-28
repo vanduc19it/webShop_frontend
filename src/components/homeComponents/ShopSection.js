@@ -12,18 +12,11 @@ const ShopSection = (props) => {
   const {keyword} = props
   const {pagenumber} = props;
   console.log(pagenumber)
-  // const [products, setProducts] = useState([])
+  
   const dispatch = useDispatch();
 
   const productList = useSelector((state)=> state.productList);
   const {loading, error, products, page, pages} = productList;
-
-  const productSearch = useSelector((state)=> state.productSearch);
-  const {productsSearch} = productSearch;
-
-  useEffect(()=> {
-    dispatch(searchProduct(keyword))
-  },[dispatch, keyword])
 
 
   
@@ -36,24 +29,13 @@ const ShopSection = (props) => {
     fetchTotalPage();
   },[]);
 
-  console.log(totalPage)
   useEffect(()=> {
-    dispatch(listProduct(pagenumber))
-  },[dispatch, pagenumber])
+    dispatch(listProduct(keyword,pagenumber))
+  },[dispatch,keyword, pagenumber])
 
   const history = useHistory();
   
   if(pagenumber > totalPage || Number(pagenumber) === 'NaN') history.push("/notfound")
-
-//   const [handleProduct, setHandleProduct] = useState(products);
-
-//  console.log(handleProduct)
-  
-//  console.log(keyword)
-
-  var handleproducts = JSON.parse(localStorage.getItem("handleproducts"));
- console.log(handleproducts)
-
  
   return (
     <>

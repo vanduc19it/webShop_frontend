@@ -4,11 +4,11 @@ import axios from "axios"
 const baseURL = "http://localhost:5000/";
 
 //product list
-export const listProduct = ( pageNumber="") => async (dispatch) => {
-    console.log(pageNumber)
+export const listProduct = (keyword="", pageNumber="") => async (dispatch) => {
+
     try {
         dispatch({type: PRODUCT_LIST_REQUEST});
-        const {data} = await axios.get( `${baseURL}all-product/${pageNumber}`)
+        const {data} = await axios.get( `${baseURL}all-product/${pageNumber}/?search=${keyword}`)
         console.log(data)
         dispatch({type:PRODUCT_LIST_SUCCESS, payload:data})
         

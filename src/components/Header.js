@@ -16,17 +16,17 @@ const Header = () => {
 
   
 
-  const productList = useSelector((state)=> state.productList);
-  const {products} = productList;
+  // const productList = useSelector((state)=> state.productList);
+  // const {products} = productList;
   
 
-  const productSearch = useSelector((state)=> state.productSearch);
-  const {productsSearch} = productSearch;
-  console.log(productsSearch)
+  // const productSearch = useSelector((state)=> state.productSearch);
+  // const {productsSearch} = productSearch;
+  // console.log(productsSearch)
 
   
 
-  localStorage.setItem("handleproducts", JSON.stringify(products));
+  // localStorage.setItem("handleproducts", JSON.stringify(products));
 
   
 
@@ -40,8 +40,8 @@ const Header = () => {
 
   const submitHandler =(e) => {
     e.preventDefault()
-    dispatch(searchProduct(keyword))
-    localStorage.setItem("handleproducts", JSON.stringify(productsSearch));
+    // dispatch(searchProduct(keyword))
+    // localStorage.setItem("handleproducts", JSON.stringify(productsSearch));
     if(keyword.trim()) {  
       history.push(`/search/${keyword}`)
     }else {
@@ -49,8 +49,8 @@ const Header = () => {
       // setHandleProduct(products)
     }
   } 
-  var handleproducts = JSON.parse(localStorage.getItem("handleproducts"));
-  console.log(handleproducts)
+  // var handleproducts = JSON.parse(localStorage.getItem("handleproducts"));
+  // console.log(handleproducts)
   
   return (
     <div>
