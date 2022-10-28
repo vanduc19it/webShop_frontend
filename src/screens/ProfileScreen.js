@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
 import ProfileTabs from "../components/profileComponents/ProfileTabs";
 import UpdatePassword from "../components/profileComponents/UpdatePassword";
-import { logout, updateuserimage } from "../Redux/Actions/userActions";
+import { getUserDetail, logout, updateuserimage } from "../Redux/Actions/userActions";
 import Orders from "./../components/profileComponents/Orders";
 import moment from "moment";
 import { Dialog } from 'primereact/dialog';
@@ -24,14 +24,32 @@ const ProfileScreen = ({match}) => {
 
   const userLogin = useSelector((state)=> state.userLogin)
   const {userInfo} = userLogin;
+
+  useEffect(()=> {
+    dispatch(getUserDetail(userInfo.idUser))
+  },[dispatch, userInfo.idUser])
   
+
+
   const logoutHandler = () => {
     dispatch(logout())
     console.log("logout sucess")
   }
   const [dialog, setDialog] = useState(false);
-  const [userImage, setUserImage] = useState(`${baseURL}images/users/${userInfo.avatar}`);
-  const [imagecrop, setImagecrop] = useState("");
+  const [userImage, setUserImage] = useState("");
+  
+  const userDetail = useSelector((state)=> state.userDetail )
+  const { user } = userDetail ;
+
+  useEffect(()=> {
+    if(user.result) {
+      setUserImage(user.result.avatar) 
+    }
+  },[dispatch, user]);
+
+ 
+
+  const [imagecrop, setImagecrop] = useState(userImage);
 
   const userUpdateImage = useSelector((state) => state.userUpdateImage);
   const {loading: updateLoading} = userUpdateImage;
@@ -44,15 +62,9 @@ const ProfileScreen = ({match}) => {
   }
   
   const saveImage = ()=> {
-
-    setUserImage(imagecrop)
     setDialog(false)
-   
     dispatch(updateuserimage(userInfo.idUser,imagecrop))
   }
-  // console.log(userInfo.idUser,userImage)
-
-  
 
   return (
     <>
@@ -66,11 +78,11 @@ const ProfileScreen = ({match}) => {
                 <div className="author-card-avatar col-md-5">
 
                   {
-                    userInfo.avatar ?
+                    userImage ?
                     (
-                      <img src={userImage} alt="userprofileimage" 
+                      <img src={!imagecrop ? `${baseURL}images/users/${userImage}`: imagecrop } alt="userprofileimage" 
                             onMouseOver={e => e.currentTarget.src = "https://bst.icons8.com/wp-content/uploads/2022/09/new_moose.webp"}
-                            onMouseOut={e => e.currentTarget.src= `${baseURL}images/users/${userInfo.avatar}` } 
+                            onMouseOut={e => e.currentTarget.src= !imagecrop ? `${baseURL}images/users/${userImage}`: imagecrop } 
                             onClick={() => setDialog(true)}
                             />
                     )

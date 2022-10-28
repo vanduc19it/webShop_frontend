@@ -8,7 +8,7 @@ import Category from "../components/homeComponents/Category";
 
 const HomeScreen = ({match}) => {
   window.scrollTo(0, 0);
-  // const keyword = match.params.keyword;
+  const keyword = match.params.keyword;
   const pagenumber = match.params.pagenumber ? match.params.pagenumber : 1;
   
   console.log(pagenumber)
@@ -16,7 +16,7 @@ const HomeScreen = ({match}) => {
     <div>
       <Header />
       <Category/>
-      <ShopSection pagenumber={pagenumber} />
+      <ShopSection keyword={keyword} pagenumber={pagenumber} />
       <CalltoActionSection />
       <ContactInfo />
       <Footer />
