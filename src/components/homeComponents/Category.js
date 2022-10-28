@@ -1,101 +1,89 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Carousel } from 'primereact/carousel';
-import { Button } from "primereact/button";
 import  { Component } from "react";
-
 import Slider from "react-slick";
-
-import '../../../src/carousel.css';
-import 'primereact/resources/themes/saga-blue/theme.css'
-import 'primereact/resources/primereact.min.css'
-import 'primeicons/primeicons.css'
-
-// import "~slick-carousel/slick/slick.css"; 
-// import "~slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "../../../src/carousel.css"
 import axios from "axios";
 const baseURL = "http://localhost:5000/";
+
 const Category = () => {
 
-    const [category, setCategory] = useState({});
-    useEffect(()=> {
+    const [category, setCategory] = useState([]);
+
+      useEffect(()=> {
         const fetchCategory = async () => {
           const {data} = await axios.get(`${baseURL}category`);
           setCategory(data);
         };
         fetchCategory();
       },[]);
-    
- 
-    
-        const settings = {
-          className: "center",
-          centerMode: true,
-          infinite: true,
-          centerPadding: "60px",
-          slidesToShow: 3,
-          speed: 500,
-          rows: 2,
-          slidesPerRow: 2
-        };
+      console.log(category)
+      
    
+  const [defaultImage, setDefaultImage] = useState({});
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 300,
+    slidesToShow: 8,
+    slidesToScroll: 3,
+    initialSlide: 0,
+    rows: 2,
+    slidesPerRow: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true,
+          
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
-    
+ 
 
-        return (
-            <div>
-              <h2>Multiple Rows</h2>
-              <Slider {...settings}>
-                <div>
-                  <h3>1</h3>
-                </div>
-                <div>
-                  <h3>2</h3>
-                </div>
-                <div>
-                  <h3>3</h3>
-                </div>
-                <div>
-                  <h3>4</h3>
-                </div>
-                <div>
-                  <h3>5</h3>
-                </div>
-                <div>
-                  <h3>6</h3>
-                </div>
-                <div>
-                  <h3>7</h3>
-                </div>
-                <div>
-                  <h3>8</h3>
-                </div>
-                <div>
-                  <h3>9</h3>
-                </div>
-                <div>
-                  <h3>10</h3>
-                </div>
-                <div>
-                  <h3>11</h3>
-                </div>
-                <div>
-                  <h3>12</h3>
-                </div>
-                <div>
-                  <h3>13</h3>
-                </div>
-                <div>
-                  <h3>14</h3>
-                </div>
-                <div>
-                  <h3>15</h3>
-                </div>
-                <div>
-                  <h3>16</h3>
-                </div>
-              </Slider>
+  return (
+    <div className="App">
+      <Slider {...settings}>
+        {category.map((item) => (
+          <div className="card">
+            <div className="card-top">
+              <img
+                src={
+                  `${baseURL}images/categories/${item.imageCategory}`}
+                alt={item.title}
+                
+              />
+              <h1>{item.nameCategory}</h1>
             </div>
-          );
+            <div className="card-bottom">
+              <h3>{item.price}</h3>
+              <span className="category">{item.category}</span>
+            </div>
+          </div>
+        ))}
+      </Slider>
+    </div>
+  );
         }
 export default Category;

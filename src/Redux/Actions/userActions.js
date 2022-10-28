@@ -1,19 +1,23 @@
 import {USER_LOGIN_REQUEST, 
-    USER_LOGIN_FAIL, 
-    USER_LOGIN_SUCCESS, 
-    USER_REGISTER_REQUEST, 
-    USER_REGISTER_SUCCESS,
-    USER_REGISTER_FAIL,
-    USER_LOGOUT,
-    USER_UPDATE_USER_IMAGE_REQUEST,
-    USER_UPDATE_USER_IMAGE_SUCCESS,
-    USER_UPDATE_USER_IMAGE_FAIL,
-    USER_UPDATE_PROFILE_REQUEST,
-    USER_UPDATE_PROFILE_SUCCESS,
-    USER_UPDATE_PROFILE_FAIL,
-    USER_CHECK_PASS_REQUEST,
-    USER_CHECK_PASS_SUCCESS,
-    USER_CHECK_PASS_FAIL} from "../Constants/UserConstants"
+
+        USER_LOGIN_FAIL, 
+        USER_LOGIN_SUCCESS, 
+        USER_REGISTER_REQUEST, 
+        USER_REGISTER_SUCCESS,
+        USER_REGISTER_FAIL,
+        USER_LOGOUT,
+        USER_UPDATE_USER_IMAGE_REQUEST,
+        USER_UPDATE_USER_IMAGE_SUCCESS,
+        USER_UPDATE_USER_IMAGE_FAIL,
+        USER_UPDATE_PROFILE_REQUEST,
+        USER_UPDATE_PROFILE_SUCCESS,
+        USER_UPDATE_PROFILE_FAIL,
+        USER_CHECK_PASS_REQUEST,
+        USER_CHECK_PASS_SUCCESS,
+        USER_CHECK_PASS_FAIL,
+        USER_DETAIL_REQUEST,
+        USER_DETAIL_SUCCESS,
+        USER_DETAIL_FAIL} from "../Constants/UserConstants"
 import axios from "axios"
 
 const baseURL = "http://localhost:5000/";
@@ -77,6 +81,39 @@ localStorage.removeItem("userInfo")
 dispatch({type: USER_LOGOUT});
 document.location.href= "/login";
 }
+//user detail
+export const getUserDetail = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({type: USER_DETAIL_REQUEST});
+        const {
+            userLogin : {userInfo}, 
+        } = getState()
+        
+        const config = {
+            headers: {
+                "Authorization": `${userInfo.token}`,
+                "Content-Type":"application/json",
+
+            }
+        }
+        const {data} = await axios.get(`${baseURL}get-normal-user/${id}`, config);
+        console.log(data);
+        dispatch({type: USER_DETAIL_SUCCESS, payload:data})
+        
+    } catch (error) {
+        const message = error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+                if (message === "not author, token failed") {
+                    dispatch(logout)
+                }
+        dispatch({ 
+            type: USER_DETAIL_FAIL,
+            payload: message
+        })
+    }
+}
+
 // convert buffer base64 to file
 const  dataURLtoFile = (dataurl, filename) => {
 
@@ -124,8 +161,9 @@ export const updateuserimage = (idUser, avatar) => async (dispatch, getState) =>
         }
         const {data} = await axios.post(`${baseURL}update-image-user/${idUser}`, formData, config);
         dispatch({type:USER_UPDATE_USER_IMAGE_SUCCESS, payload:data})
+        
         console.log(data)
-        localStorage.setItem("userInfo", JSON.stringify(data))
+        localStorage.setItem("updateImage", JSON.stringify(data))
         
     } catch (error) {
         dispatch({ 
@@ -135,7 +173,7 @@ export const updateuserimage = (idUser, avatar) => async (dispatch, getState) =>
             ? error.response.data.message
             : error.message,
         })
-=======
+
 
 return new File([u8arr], filename, {type:mime});
 }
@@ -184,6 +222,20 @@ try {
             "Content-Type":"application/json",
             Authorization: `${userInfo.token}`
         }
+
+        const {data} = await axios.post(`${baseURL}update-user/${user.idUser}`, user, config);
+        dispatch({type:USER_UPDATE_PROFILE_SUCCESS, payload:data})
+        localStorage.setItem("updateprofile", JSON.stringify(data))
+        
+    } catch (error) {
+        dispatch({ 
+            type: USER_UPDATE_PROFILE_FAIL,
+            payload:
+            error.response && error.response.data.message 
+            ? error.response.data.message
+            : error.message,
+        })
+
     }
     const {data} = await axios.post(`${baseURL}update-user/${user.idUser}`, user, config);
     dispatch({type:USER_UPDATE_PROFILE_SUCCESS, payload:data})

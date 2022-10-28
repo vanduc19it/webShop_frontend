@@ -4,11 +4,12 @@ import Rating from "./Rating";
 import Pagination from "./pagination";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { listProduct } from "../../Redux/Actions/ProductActions";
+import { listProduct, productSearch, searchProduct } from "../../Redux/Actions/ProductActions";
 import {useHistory} from "react-router-dom"
 const baseURL = "http://localhost:5000/";
 
 const ShopSection = (props) => {
+  const {keyword} = props
   const {pagenumber} = props;
   console.log(pagenumber)
   // const [products, setProducts] = useState([])
@@ -16,6 +17,13 @@ const ShopSection = (props) => {
 
   const productList = useSelector((state)=> state.productList);
   const {loading, error, products, page, pages} = productList;
+
+  const productSearch = useSelector((state)=> state.productSearch);
+  const {productsSearch} = productSearch;
+
+  useEffect(()=> {
+    dispatch(searchProduct(keyword))
+  },[dispatch, keyword])
 
 
   
@@ -33,12 +41,20 @@ const ShopSection = (props) => {
     dispatch(listProduct(pagenumber))
   },[dispatch, pagenumber])
 
-console.log()
   const history = useHistory();
   
   if(pagenumber > totalPage || Number(pagenumber) === 'NaN') history.push("/notfound")
 
+//   const [handleProduct, setHandleProduct] = useState(products);
 
+//  console.log(handleProduct)
+  
+//  console.log(keyword)
+
+  var handleproducts = JSON.parse(localStorage.getItem("handleproducts"));
+ console.log(handleproducts)
+
+ 
   return (
     <>
       <div className="container">
@@ -46,6 +62,7 @@ console.log()
           <div className="row">
             <div className="col-lg-12 col-md-12 article">
               <div className="shopcontainer row">
+              
                 {products.map((product) => (
                   <div
                     className="shop col-lg-4 col-md-6 col-sm-6"
@@ -73,7 +90,9 @@ console.log()
                       </div>
                     </div>
                   </div>
-                ))}
+                ))
+                }
+               
                 {/* Pagination */}
                 <Pagination pages={totalPage} page={pagenumber} />
               </div>
