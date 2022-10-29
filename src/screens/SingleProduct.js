@@ -17,13 +17,15 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.css';
 import { PRODUCT_CREATE_FEEDBACK_RESET } from "../Redux/Constants/ProductConstants";
 import moment from "moment";
+import { addToCart } from "../Redux/Actions/CartActions";
 const baseURL = "http://localhost:5000/";
 
 
-const SingleProduct = ({ match }) => {
+const SingleProduct = ({ history, match }) => {
   
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState("")
+  const [quantity, setQuantity] = useState(1)
 
   const productId = match.params.id;
  
@@ -65,6 +67,14 @@ const SingleProduct = ({ match }) => {
     dispatch(createProductFeedback(productId, userInfo.idUser, rating, comment));
     console.log(productId, userInfo.idUser, rating, comment)
   }
+
+  //them san pham vao gio hang
+  const HandleAddtoCart = (e) => {
+    e.preventDefault()
+    // dispatch(addToCart(productId, quantity))
+    history.push(`/cart/${productId}?quantity=${quantity}`)
+    // toast.current.show({severity:'success', summary: 'Thêm sản phẩm', detail:'Thêm sản phẩm thành công', life: 1000});
+  }
   return (
     
     <>
@@ -93,16 +103,16 @@ const SingleProduct = ({ match }) => {
                 <div className="product-name">{product.nameProduct}</div>
               </div>
               
-              <div>{ReactHtmlParser(product.description)}</div>
+              <div style={{ textAlign:"justify"}}>{ReactHtmlParser(product.description)}</div>
 
-              <div className="product-count col-lg-7 ">
+              <div className="product-count col-lg-12 ">
                 <div className="flex-box d-flex justify-content-between align-items-center">
                   <h6>Price</h6>
                   <span>${product.price}</span>
                 </div>
                 <div className="flex-box d-flex justify-content-between align-items-center">
                   <h6>Status</h6>
-                  {product.countInStock > 0 ? (
+                  {product.quantity > 0 ? (
                     <span>In Stock</span>
                   ) : (
                     <span>unavailable</span>
@@ -116,19 +126,27 @@ const SingleProduct = ({ match }) => {
                   /> */}
                   <span>{feedbacks.length} đánh giá</span>
                 </div>
-                {product.countInStock > 0 ? (
+                {product.quantity > 0 ? (
                   <>
                     <div className="flex-box d-flex justify-content-between align-items-center">
                       <h6>Quantity</h6>
-                      <select>
-                        {[...Array(product.countInStock).keys()].map((x) => (
+                      <select value={quantity} onChange={(e)=> setQuantity(e.target.value)}>
+                        {[...Array(product.quantity).keys()].map((x) => (
                           <option key={x + 1} value={x + 1}>
                             {x + 1}
                           </option>
                         ))}
                       </select>
                     </div>
-                    <button className="round-black-btn">Add To Cart</button>
+                    <div className="flex-box d-flex justify-content-between align-items-center">
+                      <div className="col-lg-6">
+                        <button className="round-black-btn" onClick={HandleAddtoCart}>Thêm vào giỏ hàng</button>
+                      </div>
+                      <div className="col-lg-5">
+                        <button className="round-black-btn">Mua ngay</button>
+                      </div>
+                    </div>
+                    
                   </>
                 ) : null}
               </div>
