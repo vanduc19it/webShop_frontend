@@ -19,6 +19,8 @@ const ShopSection = (props) => {
   const {loading, error, products, page, pages} = productList;
   console.log(products)
  
+  const productGetFeedback = useSelector((state)=> state.productGetFeedback)
+  const {feedbacks} = productGetFeedback;
  
   
   const [totalPage, setTotalPage] = useState({});
@@ -37,12 +39,6 @@ const ShopSection = (props) => {
   const history = useHistory();
   
   if(pagenumber > totalPage || Number(pagenumber) === 'NaN') history.push("/notfound")
-  
-  if(products.length > 0) {
-    console.log("true")
-  }else{
-    console.log("false")
-  }
 
   return (
     <>

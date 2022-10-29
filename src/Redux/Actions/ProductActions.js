@@ -83,7 +83,7 @@ export const getProductFeedback = (idProduct) => async (dispatch) => {
 }
 
 //create feedback
-export const createProductFeedback = (idProduct, feedback) => async (dispatch,getState) => {
+export const createProductFeedback = (idProduct, idUser, rate,comment) => async (dispatch,getState) => {
     try {
         dispatch({type: PRODUCT_CREATE_FEEDBACK_REQUEST});
         const {
@@ -95,7 +95,12 @@ export const createProductFeedback = (idProduct, feedback) => async (dispatch,ge
                 Authorization:  `${userInfo.token}`
             }
         }
-        await axios.post(`http://localhost:5000/feedback-user`, feedback, config);
+        await axios.post(`http://localhost:5000/feedback-user`,{ 
+            "idProduct":idProduct,
+            "idUser": idUser,
+            "rate":  rate,
+            "comment": comment,
+            },config);
         dispatch({type:PRODUCT_CREATE_FEEDBACK_SUCCESS})
         
     } catch (error) {
