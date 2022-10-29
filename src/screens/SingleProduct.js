@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
-
+import { Toast } from 'primereact/toast';
+import 'antd/dist/antd.css';
+import { Rate } from 'antd';
 import Header from "./../components/Header";
 import Rating from "../components/homeComponents/Rating";
 import { Link } from "react-router-dom";
 import Message from "./../components/LoadingError/Error";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductFeedback, listProductDetail } from "../Redux/Actions/ProductActions";
+import { createProductFeedback, getProductFeedback, listProductDetail } from "../Redux/Actions/ProductActions";
 import Loading from "./../components/LoadingError/Loading";
 // import { Rating } from 'primereact/rating';
 import 'primeicons/primeicons.css';
+import 'primeicons/primeicons.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.css';
 import { PRODUCT_CREATE_FEEDBACK_RESET } from "../Redux/Constants/ProductConstants";
 import moment from "moment";
 const baseURL = "http://localhost:5000/";
@@ -32,21 +37,20 @@ const SingleProduct = ({ match }) => {
 
   const productGetFeedback = useSelector((state)=> state.productGetFeedback)
   const {feedbacks} = productGetFeedback;
-  
-  
+  console.log(feedbacks)
 
-
-  
+  const desc = ['Quá thất vọng🤬🤬🤬', 'Không hài lòng😒😫🥴', 'Bình thường🥲🥲🥲', 'Hài lòng👍👍👍', 'Tuyệt vời😍😍😍'];
 
   const productCreateFeedback = useSelector((state)=> state.productCreateFeedback)
   const {loading: loadingCreateFeedback, error: errorCreateFeedback, success: successCreateFeedback } = productCreateFeedback;
-
+  const toast = useRef(null);
   useEffect(()=> {
     if(successCreateFeedback) {
-      alert("feedback submitted")
+      toast.current.show({severity:'success', summary: 'Đánh giá sản phẩm', detail:'Đánh giá sản phẩm thành công', life: 3000});
       setRating(0)
       setComment("")
       dispatch({type: PRODUCT_CREATE_FEEDBACK_RESET})
+      dispatch(getProductFeedback(productId))
     }
     dispatch(listProductDetail(productId))
    
@@ -55,11 +59,16 @@ const SingleProduct = ({ match }) => {
   useEffect(()=> {
     dispatch(getProductFeedback(productId))
   },[dispatch,productId])
- 
 
-
+  const submitHandler =(e) => {
+    e.preventDefault();
+    dispatch(createProductFeedback(productId, userInfo.idUser, rating, comment));
+    console.log(productId, userInfo.idUser, rating, comment)
+  }
   return (
+    
     <>
+    <Toast ref={toast} />
       <Header />
       <div className="container single-product">
       {
@@ -101,10 +110,11 @@ const SingleProduct = ({ match }) => {
                 </div>
                 <div className="flex-box d-flex justify-content-between align-items-center">
                   <h6>Reviews</h6>
-                  <Rating
+                  {/* <Rating
                     value={product.rating}
                     text={`${product.numReviews} reviews`}
-                  />
+                  /> */}
+                  <span>{feedbacks.length} đánh giá</span>
                 </div>
                 {product.countInStock > 0 ? (
                   <>
@@ -140,13 +150,13 @@ const SingleProduct = ({ match }) => {
                   <img src = {`${baseURL}images/users/${feedback.user.avatar}`} style={{"width": "42px","margin-top":"14px","margin-right":"10px"}} alt={feedback.user.username}/>
                  
                   <strong style={{}} >{feedback.user.username}</strong>
-                  <span style={{marginTop:"30px",marginLeft:"-150px","position": "absolute","padding-top":"2px"}}>
+                  <span style={{marginTop:"30px","margin-left":"-130px","position": "absolute","padding-top":"2px"}}>
                   <Rating  style={{"transform": "scale(1.6)"}} value={feedback.rate}/>
                   </span>
                   
                  
                   
-                  <span style={{marginTop:"60px",marginBottom:"30px",marginLeft:"-150px","position": "absolute"}}>{moment(Number(feedback.createAt)).locale("vi").startOf("second").fromNow() }</span>
+                  <span style={{marginTop:"60px",marginBottom:"30px",marginLeft:"-130px","position": "absolute"}}>{moment(Number(feedback.createAt)).locale("vi").startOf("second").fromNow() }</span>
                   
                   <div className="alert alert-info mt-3" style={{}}>
                    {feedback.comment}
@@ -160,48 +170,59 @@ const SingleProduct = ({ match }) => {
           </div>
           <div className="col-md-6">
             {/* rate */}
-            <h6>ĐỂ LẠI ĐÁNH GIÁ VỀ SẢN PHẨM</h6>
-            <div className="my-4"></div>
-
-            <form>
+            <h6>ĐÁNH GIÁ SẢN PHẨM</h6>
+            <div className="my-4">
+                {loadingCreateFeedback && <Loading/>}
+                {errorCreateFeedback && (<Message variant="alert-danger">{errorCreateFeedback}</Message>)}
+            </div>
+            {
+              userInfo ? (
+              <form onSubmit={submitHandler}>
               <div className="my-4">
-                <strong>Rating</strong>
-                <select className="col-12 bg-light p-3 mt-2 border-0 rounded">
-                  <option value="">Select...</option>
+                <strong><p>Rating</p></strong>
+                {/* <select className="col-12 bg-light p-3 mt-2 border-0 rounded">
+                  <option value="" data-icon = "../../public/hoantoankhongdongy.png">Select...</option>
                   <option value="1">1 - Quá thất vọng</option>
                   <option value="2">2 - Thất vọng</option>
                   <option value="3">3 - Bình thường</option>
                   <option value="4">4 - Tốt</option>
                   <option value="5">5 - Tuyệt vời</option>
-                </select>
-
-                {/* <i className="pi pi-check mr-2"></i>
-                <i className="pi pi-times"></i> */}
-                {/* <Rating value="" onIcon="pi pi-circle-fill" cancel={false}  />
-                <i className="pi pi-spin pi-spinner" style={{'fontSize': '2em'}}></i> */}
+                </select> */}
+                  <span>
+                     <Rate tooltips={desc} onChange={setRating} value={rating} />
+                    {rating? <span className="ant-rate-text">{desc[rating - 1]}</span> : ''}
+                  </span>
               </div>
               <div className="my-4">
                 <strong>Comment</strong>
                 <textarea
+                  value={comment}
+                  onChange={(e)=> setComment(e.target.value)}
                   row="3"
                   className="col-12 bg-light p-3 mt-2 border-0 rounded"
                 ></textarea>
               </div>
               <div className="my-3">
-                <button className="col-12 bg-black border-0 p-3 rounded text-white">
-                  SUBMIT
+                <button disabled={loadingCreateFeedback} className="col-12 bg-black border-0 p-3 rounded text-white">
+                  ĐĂNG
                 </button>
               </div>
             </form>
-            <div className="my-3">
+              )
+              :
+              (
+              <div className="my-3">
               <Message variant={"alert-warning"}>
-                Please{" "}
+                Bạn vui lòng{" "}
                 <Link to="/login">
-                  " <strong>Login</strong> "
+                  " <strong>đăng nhập tài khoản</strong> "
                 </Link>{" "}
-                to write a review{" "}
+                để đánh giá sản phẩm{" "}
               </Message>
             </div>
+              )
+            }
+ 
           </div>
         </div>
           </>
