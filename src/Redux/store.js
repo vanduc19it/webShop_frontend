@@ -4,6 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { productCreateFeedbackReducer, productDetailReducer, productGetFeedbackReducer, productListReducer, productSearchReducer } from "./Reducers/ProductReducers";
 import { checkPassReducer, userDetailReducer, userLoginReducer, userRegisterReducer, userUpdateImageReducer, userUpdateProfileReducer } from "./Reducers/userReducers";
 import { cartReducer } from "./Reducers/CartReducers";
+import { orderCreateReducer, orderDetailReducer } from "./Reducers/orderReducers";
 const reducer = combineReducers({
     productList: productListReducer,
     productSearch: productSearchReducer,
@@ -16,6 +17,8 @@ const reducer = combineReducers({
     userUpdateImage: userUpdateImageReducer,
     userUpdateProfile: userUpdateProfileReducer,
     checkPass: checkPassReducer,
+    orderCreate: orderCreateReducer,
+    orderDetail: orderDetailReducer,
 })
 
 const userInfoFromLocalStorage = localStorage.getItem("userInfo")
@@ -26,9 +29,18 @@ const  cartItemsFromLocalStorage = localStorage.getItem("cartItems")
 ? JSON.parse(localStorage.getItem("cartItems"))
 : []
 
+//giao hang info
+const  shippingInfoFromLocalStorage = localStorage.getItem("shippingInfo")
+? JSON.parse(localStorage.getItem("shippingInfo"))
+: {}
+
 const initialState = {
     userLogin: {userInfo:userInfoFromLocalStorage},
-    cart: {cartItems:cartItemsFromLocalStorage}
+    cart: {
+        cartItems: cartItemsFromLocalStorage,
+        shippingInfo: shippingInfoFromLocalStorage
+    },
+    
 }
 
 const middleware = [thunk]

@@ -1,12 +1,26 @@
-import React from "react";
+import React, {useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import { saveShippingInfo } from "../Redux/Actions/CartActions";
 
-const ShippingScreen = () => {
+const ShippingScreen = ({history}) => {
   window.scrollTo(0, 0);
+
+  const cart = useSelector((state)=> state.cart)
+  const {shippingInfo} = cart;
+
+  const [address, setAddress] = useState(shippingInfo.address);
+  const [city, setCity] = useState(shippingInfo.city);
+  const [phone, setPhone] = useState(shippingInfo.phone);
+  const [message, setMessage] = useState(shippingInfo.message);
+
+  const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(saveShippingInfo({address, city, phone, message}));
+    history.push("/payment")
   };
   return (
     <>
@@ -16,15 +30,15 @@ const ShippingScreen = () => {
           className="Login col-md-8 col-lg-4 col-11"
           onSubmit={submitHandler}
         >
-          <h6>DELIVERY ADDRESS</h6>
-          <input type="text" placeholder="Enter address" />
-          <input type="text" placeholder="Enter city" />
-          <input type="text" placeholder="Enter postal code" />
-          <input type="text" placeholder="Enter country" />
+          <h6>Thông Tin Giao Hàng</h6>
+          <input type="text" required placeholder="Enter address" value={address} onChange={(e)=> setAddress(e.target.value)}/>
+          <input type="text" required placeholder="Enter city" value={city} onChange={(e)=> setCity(e.target.value)}/>
+          <input type="text" required placeholder="Enter your phone" value={phone} onChange={(e)=> setPhone(e.target.value)}/>
+          <input type="text" required placeholder="Enter your message" value={message} onChange={(e)=> setMessage(e.target.value)}/>
           <button type="submit">
-            <Link to="/payment" className="text-white">
-              Continue
-            </Link>
+            {/* <Link to="/payment" className="text-white"> */}
+              Tiếp tục
+            {/* </Link> */}
           </button>
         </form>
       </div>
