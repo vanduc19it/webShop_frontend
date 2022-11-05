@@ -1,8 +1,20 @@
-import React from "react";
-const Orders = () => {
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrderDetail } from "../../Redux/Actions/orderActions";
+import moment from "moment";
+import { Link } from "react-router-dom";
+const Orders = (props) => {
+
+const {order} = props;
+console.log(order)
+
+
   return (
     <div className=" d-flex justify-content-center align-items-center flex-column">
-      {/* <div className="col-12 alert alert-info text-center mt-3">
+     
+    {
+      !order ? (
+      <div className="col-12 alert alert-info text-center mt-3">
         No Orders
         <Link
           className="btn btn-success mx-2 px-3 py-2"
@@ -13,9 +25,9 @@ const Orders = () => {
         >
           START SHOPPING
         </Link>
-      </div> */}
-
-      <div className="table-responsive">
+      </div> 
+      ) : (
+        <div className="table-responsive">
         <table className="table">
           <thead>
             <tr>
@@ -26,30 +38,27 @@ const Orders = () => {
             </tr>
           </thead>
           <tbody>
+            {
+              order.map((item)=>(
             <tr className={"alert-success"}>
               <td>
-                <a href={`/`} className="link">
-                  1
+                <a href={`/order/${item._id}`} className="link">
+                  {item._id}
                 </a>
               </td>
               <td>Paid</td>
-              <td>Dec 12 2021</td>
-              <td>$234</td>
+              <td>{moment(Number(item.createAt)).locale("vi").startOf("second").fromNow() }</td>
+              <td>{item.totalPrice}</td>
             </tr>
-            {/* Cancelled */}
-            <tr className={"alert-danger"}>
-              <td>
-                <a href={`/`} className="link">
-                  2
-                </a>
-              </td>
-              <td>Not Paid</td>
-              <td>Dec 12 2021</td>
-              <td>$34</td>
-            </tr>
+              ))
+            }
+            
           </tbody>
         </table>
       </div>
+      )
+    }
+     
     </div>
   );
 };

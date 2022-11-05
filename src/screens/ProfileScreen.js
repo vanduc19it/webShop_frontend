@@ -12,6 +12,7 @@ import { Button } from 'primereact/button';
 import 'primereact/resources/themes/saga-blue/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
+import { getOrderDetail } from "../Redux/Actions/orderActions";
 
 const baseURL = "http://localhost:5000/";
 const ProfileScreen = ({match}) => {
@@ -25,11 +26,14 @@ const ProfileScreen = ({match}) => {
   const userLogin = useSelector((state)=> state.userLogin)
   const {userInfo} = userLogin;
 
+
+
+
   useEffect(()=> {
+    dispatch(getOrderDetail(userInfo.idUser))
     dispatch(getUserDetail(userInfo.idUser))
   },[dispatch, userInfo.idUser])
   
-
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -65,6 +69,10 @@ const ProfileScreen = ({match}) => {
     setDialog(false)
     dispatch(updateuserimage(userInfo.idUser,imagecrop))
   }
+
+  const orderDetail = useSelector((state)=> state.orderDetail)
+  const {order} = orderDetail;
+  console.log(order)
 
   return (
     <>
@@ -157,7 +165,7 @@ const ProfileScreen = ({match}) => {
                     aria-selected="false"
                   >
                     Orders List
-                    <span className="badge2">3</span>
+                    <span className="badge2">{order ? order.length : 0 }</span>
                   </button>
                 </div>
               </div>
@@ -191,7 +199,7 @@ const ProfileScreen = ({match}) => {
               role="tabpanel"
               aria-labelledby="v-pills-profile-tab"
             >
-              <Orders />
+              <Orders order={order}/>
             </div>
           </div>
         </div>
