@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "./../components/Header";
 import { PayPalButton } from "react-paypal-button-v2";
 import { useSelector, useDispatch } from "react-redux";
-import { getOrderDetail } from "../Redux/Actions/orderActions";
+import { getOrderDetail, getOrderSingle } from "../Redux/Actions/orderActions";
 import Message from "./../components/LoadingError/Error";
 import Loading from "./../components/LoadingError/Loading";
 import moment from "moment";
@@ -12,25 +12,31 @@ const baseURL = "http://localhost:5000/";
 const OrderScreen = ({match}) => {
   window.scrollTo(0, 0);
   const orderId = match.params.id
-  console.log(orderId);
+
   const dispatch = useDispatch();
-  const orderDetail = useSelector((state)=> state.orderDetail)
-  const {order, loading, error} = orderDetail;
+
+  const userLogin = useSelector((state)=> state.userLogin)
+  const {userInfo} = userLogin;
+
+  const orderSingle = useSelector((state)=> state.orderSingle)
+  const {order, loading, error} = orderSingle;
+
   console.log(order)
+  
   if(!loading) {
-    order.itemsPrice  = order.orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    order.itemsPrice  = order.productItems.reduce((acc, item) => acc + item.unit_price * item.quantity, 0)
   
     order.shippingPrice = order.itemsPrice > 300000 ? 0 : 15000;
   
     order.totalPrice = order.itemsPrice + order.shippingPrice;
   }
-
-  
-
   useEffect(()=> {
-    dispatch(getOrderDetail(orderId));
-    
+    dispatch(getOrderSingle(orderId));
   },[dispatch, orderId])
+
+ 
+
+ 
 
   return (
     <>
@@ -39,6 +45,7 @@ const OrderScreen = ({match}) => {
         {
           loading ? (<Loading/>): error ? ( <Message variant="alert-danger">{error}</Message>) :
           (
+           
             <>
   <div className="row  order-detail">
           <div className="col-lg-4 col-sm-4 mb-lg-4 mb-5 mb-sm-0">
@@ -52,9 +59,9 @@ const OrderScreen = ({match}) => {
                 <h5>
                   <strong>Customer</strong>
                 </h5>
-                <p>{order.user.name}</p>
+                <p>{order.namedReceiver}</p>
                 <p>
-                  <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                  <a href={`mailto:${userInfo.email}`}>{userInfo.email}</a>
                 </p>
               </div>
             </div>
@@ -72,7 +79,7 @@ const OrderScreen = ({match}) => {
                   <strong>Order info</strong>
                 </h5>
                 <p>Shipping: J&T Express</p>
-                <p>Pay method: {order.paymentMethod}</p>
+                <p>Pay method: {order.payment}</p>
                 {
                   order.isPaid ? ( 
                   <div className="bg-info p-2 col-12">
@@ -105,10 +112,10 @@ const OrderScreen = ({match}) => {
                   <strong>Deliver to</strong>
                 </h5>
                 <p>
-                  Address: {order.shippingInfo.address}, {order.shippingInfo.city}
+                  Address: {order.addressReceiver}, {order.city}
                 </p>
                 <p>
-                  SDT: {order.shippingInfo.phone}
+                  SDT: {order.phoneReceiver}
                 </p>
                 {
                   order.isDelivered ? ( 
@@ -134,29 +141,29 @@ const OrderScreen = ({match}) => {
           <div className="col-lg-8">
            
                 {
-                  order.orderItems.length === 0 ? (
+                  order.length === 0 ? (
                     <Message variant="alert-info mt-5">Your order is empty</Message>
                   ) : 
                   (
                     <>
                     {
-                      order.orderItems.map((item, index)=> (
-                        <div key={index} className="order-product row">
+                      order.productItems.map((item, index)=> (
+                    <div key={index} className="order-product row">
                       <div className="col-md-3 col-6">
-                        <img src={`${baseURL}images/products/${item.image}`} alt={item.name} />
+                        <img src={`${baseURL}images/products/${item.imgProduct}`} alt={item.nameProduct} />
                       </div>
                       <div className="col-md-5 col-6 d-flex align-items-center">
-                        <Link to={`/products/${item.product}`}>
-                          <h6>{item.name}</h6>
+                        <Link to={`/products/${item.idProduct}`}>
+                          <h6>{item.nameProduct}</h6>
                         </Link>
                       </div>
                       <div className="mt-3 mt-md-0 col-md-2 col-6  d-flex align-items-center flex-column justify-content-center ">
-                        <h4>QUANTITY</h4>
+                        <h4>SỐ LƯỢNG</h4>
                         <h6>{item.quantity}</h6>
                       </div>
                       <div className="mt-3 mt-md-0 col-md-2 col-6 align-items-end  d-flex flex-column justify-content-center ">
-                        <h4>SUBTOTAL</h4>
-                        <h6>${item.quantity * item.price}</h6>
+                        <h4>GIÁ</h4>
+                        <h6>{item.quantity * item.unit_price} đ</h6>
                       </div>
                     </div>
                       ))
