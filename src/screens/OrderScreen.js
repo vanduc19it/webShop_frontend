@@ -1,16 +1,46 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import Header from "./../components/Header";
 import { PayPalButton } from "react-paypal-button-v2";
+import { useSelector, useDispatch } from "react-redux";
+import { getOrderDetail } from "../Redux/Actions/orderActions";
+import Message from "./../components/LoadingError/Error";
+import Loading from "./../components/LoadingError/Loading";
+import moment from "moment";
+const baseURL = "http://localhost:5000/";
 
-const OrderScreen = () => {
+const OrderScreen = ({match}) => {
   window.scrollTo(0, 0);
+  const orderId = match.params.id
+  console.log(orderId);
+  const dispatch = useDispatch();
+  const orderDetail = useSelector((state)=> state.orderDetail)
+  const {order, loading, error} = orderDetail;
+  console.log(order)
+  if(!loading) {
+    order.itemsPrice  = order.orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+  
+    order.shippingPrice = order.itemsPrice > 300000 ? 0 : 15000;
+  
+    order.totalPrice = order.itemsPrice + order.shippingPrice;
+  }
+
+  
+
+  useEffect(()=> {
+    dispatch(getOrderDetail(orderId));
+    
+  },[dispatch, orderId])
 
   return (
     <>
       <Header />
       <div className="container">
-        <div className="row  order-detail">
+        {
+          loading ? (<Loading/>): error ? ( <Message variant="alert-danger">{error}</Message>) :
+          (
+            <>
+  <div className="row  order-detail">
           <div className="col-lg-4 col-sm-4 mb-lg-4 mb-5 mb-sm-0">
             <div className="row">
               <div className="col-md-4 center">
@@ -22,9 +52,9 @@ const OrderScreen = () => {
                 <h5>
                   <strong>Customer</strong>
                 </h5>
-                <p>Admin Doe</p>
+                <p>{order.user.name}</p>
                 <p>
-                  <a href={`mailto:admin@example.com`}>admin@example.com</a>
+                  <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
                 </p>
               </div>
             </div>
@@ -41,14 +71,24 @@ const OrderScreen = () => {
                 <h5>
                   <strong>Order info</strong>
                 </h5>
-                <p>Shipping: Tanzania</p>
-                <p>Pay method: Paypal</p>
-
-                <div className="bg-info p-2 col-12">
+                <p>Shipping: J&T Express</p>
+                <p>Pay method: {order.paymentMethod}</p>
+                {
+                  order.isPaid ? ( 
+                  <div className="bg-info p-2 col-12">
                   <p className="text-white text-center text-sm-start">
-                    Paid on Jan 12 2021
+                    Đã thanh toán: {moment(order.paidAt).calendar()}
                   </p>
                 </div>
+                ):(
+                  <div className="bg-danger p-2 col-12">
+                  <p className="text-white text-center text-sm-start">
+                    Chưa thanh toán.
+                  </p>
+                </div>
+                )
+                }
+               
               </div>
             </div>
           </div>
@@ -65,13 +105,26 @@ const OrderScreen = () => {
                   <strong>Deliver to</strong>
                 </h5>
                 <p>
-                  Address: Arusha Tz, Ngaramtoni Crater, P.O BOX 1234 Arusha Tz
+                  Address: {order.shippingInfo.address}, {order.shippingInfo.city}
                 </p>
-                <div className="bg-danger p-1 col-12">
+                <p>
+                  SDT: {order.shippingInfo.phone}
+                </p>
+                {
+                  order.isDelivered ? ( 
+                  <div className="bg-info p-2 col-12">
                   <p className="text-white text-center text-sm-start">
-                    Not Delivered
+                    Đã nhận được hàng: {moment(order.deliveredAt).calendar()}
                   </p>
                 </div>
+                ):(
+                  <div className="bg-danger p-2 col-12">
+                  <p className="text-white text-center text-sm-start">
+                    Đơn hàng chưa được giao.
+                  </p>
+                </div>
+                )
+                }
               </div>
             </div>
           </div>
@@ -79,62 +132,73 @@ const OrderScreen = () => {
 
         <div className="row order-products justify-content-between">
           <div className="col-lg-8">
-            {/* <Message variant="alert-info mt-5">Your order is empty</Message> */}
-
-            <div className="order-product row">
-              <div className="col-md-3 col-6">
-                <img src="/images/4.png" alt="product" />
-              </div>
-              <div className="col-md-5 col-6 d-flex align-items-center">
-                <Link to={`/`}>
-                  <h6>Girls Nike Shoes</h6>
-                </Link>
-              </div>
-              <div className="mt-3 mt-md-0 col-6 col-md-2  d-flex align-items-center flex-column justify-content-center ">
-                <h4>QUANTITY</h4>
-                <h6>4</h6>
-              </div>
-              <div className="mt-3 mt-md-0 col-md-2 col-6 align-items-end  d-flex flex-column justify-content-center">
-                <h4>SUBTOTAL</h4>
-                <h6>$456</h6>
-              </div>
-            </div>
+           
+                {
+                  order.orderItems.length === 0 ? (
+                    <Message variant="alert-info mt-5">Your order is empty</Message>
+                  ) : 
+                  (
+                    <>
+                    {
+                      order.orderItems.map((item, index)=> (
+                        <div key={index} className="order-product row">
+                      <div className="col-md-3 col-6">
+                        <img src={`${baseURL}images/products/${item.image}`} alt={item.name} />
+                      </div>
+                      <div className="col-md-5 col-6 d-flex align-items-center">
+                        <Link to={`/products/${item.product}`}>
+                          <h6>{item.name}</h6>
+                        </Link>
+                      </div>
+                      <div className="mt-3 mt-md-0 col-md-2 col-6  d-flex align-items-center flex-column justify-content-center ">
+                        <h4>QUANTITY</h4>
+                        <h6>{item.quantity}</h6>
+                      </div>
+                      <div className="mt-3 mt-md-0 col-md-2 col-6 align-items-end  d-flex flex-column justify-content-center ">
+                        <h4>SUBTOTAL</h4>
+                        <h6>${item.quantity * item.price}</h6>
+                      </div>
+                    </div>
+                      ))
+                    }
+                    </>
+                  )
+                }
+           
           </div>
           {/* total */}
           <div className="col-lg-3 d-flex align-items-end flex-column mt-5 subtotal-order">
             <table className="table table-bordered">
-              <tbody>
+            <tbody>
                 <tr>
                   <td>
                     <strong>Products</strong>
                   </td>
-                  <td>$234</td>
+                  <td>{order.itemsPrice} đ</td>
                 </tr>
                 <tr>
                   <td>
                     <strong>Shipping</strong>
                   </td>
-                  <td>$566</td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong>Tax</strong>
-                  </td>
-                  <td>$3</td>
+                  <td>{order.shippingPrice == 0 ? "Freeship" : order.shippingPrice +" đ" }</td>
                 </tr>
                 <tr>
                   <td>
                     <strong>Total</strong>
                   </td>
-                  <td>$567</td>
+                  <td>{order.totalPrice} đ</td>
                 </tr>
               </tbody>
             </table>
             <div className="col-12">
-              <PayPalButton amount={345} />
+              {/* <PayPalButton amount={345} /> */}
             </div>
           </div>
         </div>
+            </>
+          )
+        }
+      
       </div>
     </>
   );
