@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
 import ProfileTabs from "../components/profileComponents/ProfileTabs";
@@ -14,8 +14,19 @@ import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 import { getOrderDetail } from "../Redux/Actions/orderActions";
 
+import Modal, {
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  ModalTransition,
+} from '@atlaskit/modal-dialog';
+import { Input } from "antd";
+import { createShop, getShopDetail } from "../Redux/Actions/shopActions";
+
+
 const baseURL = "http://localhost:5000/";
-const ProfileScreen = ({match}) => {
+const ProfileScreen = ({match, history}) => {
   window.scrollTo(0, 0);
 
   // const idUser = match.params.id;
@@ -30,8 +41,9 @@ const ProfileScreen = ({match}) => {
 
 
   useEffect(()=> {
-    dispatch(getOrderDetail(userInfo.idUser))
-    dispatch(getUserDetail(userInfo.idUser))
+    dispatch(getOrderDetail(userInfo.idUser));
+    dispatch(getUserDetail(userInfo.idUser));
+    dispatch(getShopDetail(userInfo.idUser));
   },[dispatch, userInfo.idUser])
   
 
@@ -73,6 +85,43 @@ const ProfileScreen = ({match}) => {
   const orderDetail = useSelector((state)=> state.orderDetail)
   const {order} = orderDetail;
   console.log(order)
+
+  const [nameShop, setNameShop] = useState("")
+  const [phoneShop, setPhoneShop] = useState("")
+  const [addressShop, setAddressShop] = useState("")
+ 
+
+  const [modalOpen, setModalOpen] = useState(false)
+
+
+  const closeModal = useCallback(() => setModalOpen(false), []);
+
+  const shopDetail = useSelector((state)=> state.shopDetail )
+  const { shopInfo } = shopDetail ;
+  
+  const handleOpenModal = () => {
+    if(shopInfo._id) {
+      //chuyen huong qua trang shop cua toi
+      
+      history.push("/myshop");
+    }else {
+      //tao shop 
+      setModalOpen(true);
+    }
+  }
+  const handleCreateShop = (e) => {
+    e.preventDefault();
+    dispatch(createShop(userInfo.idUser,nameShop, phoneShop, addressShop))
+    setModalOpen(false);
+    
+  }
+
+ 
+
+
+
+
+
 
   return (
     <>
@@ -167,10 +216,53 @@ const ProfileScreen = ({match}) => {
                     Orders List
                     <span className="badge2">{order ? order.length : 0 }</span>
                   </button>
+                  
+                  <button
+                    class="nav-link d-flex justify-content-between"
+                    onClick={handleOpenModal}
+                  >
+                    Shop của tôi 
+                  </button>
                 </div>
               </div>
             </div>
           </div>
+
+          <ModalTransition>
+        {modalOpen && (
+          <Modal onClose={closeModal}>
+            <form onSubmit={handleCreateShop}>
+              <ModalHeader>
+                <ModalTitle>Tạo Shop Bán Hàng</ModalTitle>
+              </ModalHeader>
+              <ModalBody>
+                <div className="mb-2">
+                  <span>Tên shop</span>
+                  <Input required placeholder="Tên shop" value={nameShop} onChange={(e)=> setNameShop(e.target.value)}/>
+                </div>
+                <div className="mb-2">
+                  <span>Điện thoại liên hệ</span>
+                  <Input required placeholder="Điện thoại liên hệ" value={phoneShop} onChange={(e)=> setPhoneShop(e.target.value)}/>
+                </div>
+                <div className="mb-2">
+                  <span>Địa chỉ</span>
+                  <Input required placeholder="Địa chỉ" value={addressShop} onChange={(e)=> setAddressShop(e.target.value)}/>
+                </div>
+               
+             
+              </ModalBody>
+              <ModalFooter>
+                <Button appearance="subtle" onClick={closeModal}>
+                  Hủy
+                </Button>
+                <Button appearance="primary" type="submit">
+                  Tạo shop
+                </Button>
+              </ModalFooter>
+            </form>
+          </Modal>
+        )}
+      </ModalTransition>
 
           {/* panels */}
           <div
