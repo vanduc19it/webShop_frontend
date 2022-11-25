@@ -22,7 +22,7 @@ const reducer = combineReducers({
     orderDetail: orderDetailReducer,
     orderSingle: orderSingleReducer,
     shopInfor: shopInfornomal, 
-    productShop: productListShopReducer
+    productShop: productListShopReducer,
 })
 
 const userInfoFromLocalStorage = localStorage.getItem("userInfo")
