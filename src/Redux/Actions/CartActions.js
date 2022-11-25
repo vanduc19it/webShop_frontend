@@ -1,11 +1,12 @@
 import axios from "axios";
-import { CART_ADD_PRODUCTS, CART_REMOVE_PRODUCTS, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_INFO } from "../Constants/CartConstants";
+import {cartConstant, BASE_URL_SERVER} from "../Constants/index"; 
 
+const base_url = BASE_URL_SERVER ; 
 //add product to cart
 export const addToCart = (id, quantity) => async (dispatch, getState) => {
-    const {data} = await axios.get(`http://localhost:5000/detail-product?idProduct=${id}`); 
+    const {data} = await axios.get(`${base_url}detail-product?idProduct=${id}`); 
     dispatch({
-        type: CART_ADD_PRODUCTS,
+        type: cartConstant.CART_ADD_PRODUCTS,
         payload: {
             product: data._id,
             name: data.nameProduct,
@@ -23,7 +24,7 @@ export const addToCart = (id, quantity) => async (dispatch, getState) => {
 export const removeFromCart = (id) => async (dispatch, getState) => {
     
     dispatch({
-        type: CART_REMOVE_PRODUCTS,
+        type: cartConstant.CART_REMOVE_PRODUCTS,
         payload: id, 
     });
         
@@ -34,7 +35,7 @@ export const removeFromCart = (id) => async (dispatch, getState) => {
 export const saveShippingInfo = (data) => async (dispatch) => {
     
     dispatch({
-        type: CART_SAVE_SHIPPING_INFO,
+        type: cartConstant.CART_SAVE_SHIPPING_INFO,
         payload: data, 
     });
         
@@ -45,7 +46,7 @@ export const saveShippingInfo = (data) => async (dispatch) => {
 export const savePaymentMethod = (data) => async (dispatch) => {
     
     dispatch({
-        type: CART_SAVE_PAYMENT_METHOD,
+        type: cartConstant.CART_SAVE_PAYMENT_METHOD,
         payload: data, 
     });
         
