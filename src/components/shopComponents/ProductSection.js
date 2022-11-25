@@ -1,40 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
-import Pagination from "./pagination";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { listProduct, productSearch, searchProduct } from "../../Redux/Actions/ProductActions";
+import { listProductByIdShop } from "../../Redux/Actions/shopAction";
 import {useHistory} from "react-router-dom"
 const baseURL = "http://localhost:5000/";
 
-const ShopSection = (props) => {
-  const {keyword} = props
+const ProductSection = (props) => {
+  const {idShop} = props
   const {pagenumber} = props;
   console.log(pagenumber)
   
   const dispatch = useDispatch();
 
-  const productList = useSelector((state)=> state.productList);
-  const {loading, error, products, page, pages} = productList;
+  const productShop = useSelector((state)=> state.productShop);
+  console.log(productShop) ; 
+  const {loading, error, page,products, pages} = productShop;
+  
+
+  console.log("product===============") ; 
   console.log(products)
- 
-  const productGetFeedback = useSelector((state)=> state.productGetFeedback)
-  const {feedbacks} = productGetFeedback;
  
   
   const [totalPage, setTotalPage] = useState({});
-  useEffect(()=> {
-    const fetchTotalPage = async () => {
-      const {data} = await axios.get(`${baseURL}count-all-product`);
-      setTotalPage(data.result.total_page);
-    };
-    fetchTotalPage();
-  },[]);
+  const product1 = listProductByIdShop(idShop, pagenumber);
+  console.log("get product") ; 
+  console.log(product1); 
+  // useEffect(()=> {
+  //   const fetchTotalPage = async () => {
+  //     const {data} = await axios.get(`${baseURL}count-all-product`);
+  //     setTotalPage(data.result.total_page);
+  //   };
+  //   fetchTotalPage();
+  // },[]);
 
   useEffect(()=> {
-    dispatch(listProduct(keyword,pagenumber))
-  },[dispatch,keyword, pagenumber])
+    dispatch(listProductByIdShop(idShop,pagenumber))
+  },[dispatch,idShop, pagenumber])
 
   const history = useHistory();
   
@@ -72,7 +75,7 @@ const ShopSection = (props) => {
                           value={product.rating}
                           text={`${product.numReviews} reviews`}
                         />
-                        <h3>${product.price}</h3>
+                        <h3> {product.price}<sup>đ</sup></h3>
                       </div>
                     </div>
                   </div>
@@ -88,7 +91,6 @@ const ShopSection = (props) => {
              
               
                 {/* Pagination */}
-                <Pagination pages={totalPage} page={pagenumber} />
               </div>
             </div>
           </div>
@@ -100,4 +102,4 @@ const ShopSection = (props) => {
   
 };
 
-export default ShopSection;
+export default ProductSection;

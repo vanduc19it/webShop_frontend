@@ -1,12 +1,12 @@
 import axios from "axios";
 import { CART_CLEAR_PRODUCTS } from "../Constants/CartConstants";
-import { GET_SINGLE_ORDER_FAIL, GET_SINGLE_ORDER_REQUEST, GET_SINGLE_ORDER_SUCCESS, ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DETAIL_FAIL, ORDER_DETAIL_REQUEST, ORDER_DETAIL_SUCCESS } from "../Constants/orderConstants";
 import { logout } from "./userActions";
+import {orderContant} from "../Constants/index"
 const baseURL = "http://localhost:5000/";
 //dat hang
 export const createOrder = (order) => async (dispatch, getState) => {
     try {
-        dispatch({type: ORDER_CREATE_REQUEST});
+        dispatch({type: orderContant.ORDER_CREATE_REQUEST});
         const {
             userLogin: {userInfo},
         } = getState();
@@ -46,7 +46,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
 
         const {data} = await axios.post(`${baseURL}order/create-new`, dataa, config);
 
-        dispatch({type:ORDER_CREATE_SUCCESS, payload:data})
+        dispatch({type:orderContant.ORDER_CREATE_SUCCESS, payload:data})
         dispatch({type: CART_CLEAR_PRODUCTS, payload:data})
 
         localStorage.removeItem("cartItems")
@@ -59,7 +59,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
             dispatch(logout());
         }
         dispatch({ 
-            type: ORDER_CREATE_FAIL,
+            type: orderContant.ORDER_CREATE_FAIL,
             payload: message
         })
     }
@@ -68,7 +68,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
 // lay thong tin don hang theo iduser
 export const getOrderDetail = (id) => async (dispatch, getState) => {
     try {
-        dispatch({type: ORDER_DETAIL_REQUEST});
+        dispatch({type: orderContant.ORDER_DETAIL_REQUEST});
         const {
             userLogin: {userInfo},
         } = getState();
@@ -80,7 +80,7 @@ export const getOrderDetail = (id) => async (dispatch, getState) => {
             }
         }
         const {data} = await axios.get(`${baseURL}order/getall/${id}`, config);
-        dispatch({type:ORDER_DETAIL_SUCCESS, payload:data})
+        dispatch({type:orderContant.ORDER_DETAIL_SUCCESS, payload:data})
             
         
     } catch (error) {
@@ -91,7 +91,7 @@ export const getOrderDetail = (id) => async (dispatch, getState) => {
             dispatch(logout());
         }
         dispatch({ 
-            type: ORDER_DETAIL_FAIL,
+            type: orderContant.ORDER_DETAIL_FAIL,
             payload: message
         })
     }
@@ -101,7 +101,7 @@ export const getOrderDetail = (id) => async (dispatch, getState) => {
 // lay thong tin don hang theo idorder
 export const getOrderSingle = (idOrder) => async (dispatch, getState) => {
     try {
-        dispatch({type: GET_SINGLE_ORDER_REQUEST});
+        dispatch({type: orderContant.GET_SINGLE_ORDER_REQUEST});
         const {
             userLogin: {userInfo},
         } = getState();
@@ -113,7 +113,7 @@ export const getOrderSingle = (idOrder) => async (dispatch, getState) => {
             }
         }
         const {data} = await axios.get(`${baseURL}order/get-id/${idOrder}`, config);
-        dispatch({type:GET_SINGLE_ORDER_SUCCESS, payload:data})
+        dispatch({type:orderContant.GET_SINGLE_ORDER_SUCCESS, payload:data})
             
         
     } catch (error) {
@@ -124,7 +124,7 @@ export const getOrderSingle = (idOrder) => async (dispatch, getState) => {
             dispatch(logout());
         }
         dispatch({ 
-            type: GET_SINGLE_ORDER_FAIL,
+            type: orderContant.GET_SINGLE_ORDER_FAIL,
             payload: message
         })
     }

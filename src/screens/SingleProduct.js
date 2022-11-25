@@ -17,6 +17,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.css';
 import { PRODUCT_CREATE_FEEDBACK_RESET } from "../Redux/Constants/ProductConstants";
 import moment from "moment";
+
 import { addToCart } from "../Redux/Actions/CartActions";
 const baseURL = "http://localhost:5000/";
 
@@ -28,24 +29,31 @@ const SingleProduct = ({ history, match }) => {
   const [quantity, setQuantity] = useState(1)
 
   const productId = match.params.id;
- 
+  console.log(productId);
   const dispatch = useDispatch();
 
   const productDetail = useSelector((state)=> state.productDetail)
   const {loading, error, product} = productDetail;
+  console.log("hello"); 
+  console.log(product);
 
   const userLogin = useSelector((state)=> state.userLogin)
   const {userInfo} = userLogin;
+  const [flag_feedback, setFlag] = useState(false);
+  const [flag_loader, setFlag_loader] = useState(false);
 
   const productGetFeedback = useSelector((state)=> state.productGetFeedback)
+
   const {feedbacks} = productGetFeedback;
-  console.log(feedbacks)
+
+
 
   const desc = ['Quá thất vọng🤬🤬🤬', 'Không hài lòng😒😫🥴', 'Bình thường🥲🥲🥲', 'Hài lòng👍👍👍', 'Tuyệt vời😍😍😍'];
 
   const productCreateFeedback = useSelector((state)=> state.productCreateFeedback)
   const {loading: loadingCreateFeedback, error: errorCreateFeedback, success: successCreateFeedback } = productCreateFeedback;
   const toast = useRef(null);
+
   useEffect(()=> {
     if(successCreateFeedback) {
       toast.current.show({severity:'success', summary: 'Đánh giá sản phẩm', detail:'Đánh giá sản phẩm thành công', life: 3000});
@@ -59,8 +67,10 @@ const SingleProduct = ({ history, match }) => {
   }, [dispatch, productId, successCreateFeedback]);
     
   useEffect(()=> {
+    setFlag_loader(false);
+
     dispatch(getProductFeedback(productId))
-  },[dispatch,productId])
+  },[dispatch,productId, flag_feedback])
 
   const submitHandler =(e) => {
     e.preventDefault();
@@ -74,6 +84,15 @@ const SingleProduct = ({ history, match }) => {
     // dispatch(addToCart(productId, quantity))
     history.push(`/cart/${productId}?quantity=${quantity}`)
     // toast.current.show({severity:'success', summary: 'Thêm sản phẩm', detail:'Thêm sản phẩm thành công', life: 1000});
+  }
+  const HandleSlideDown = (e) => {
+
+    // setFeedBack(feedbacks) ; 
+    setFlag_loader(true);
+    setTimeout(()=> {setFlag(true);}, 2000);
+
+
+   
   }
   return (
     
@@ -150,6 +169,22 @@ const SingleProduct = ({ history, match }) => {
                   </>
                 ) : null}
               </div>
+              <div className="col-lg-12 shop-card-mini">
+              <div className="shop-card-mimi-avatar col-md-2">
+
+                <img src={`${baseURL}images/shops/shop-default.png`} alt="userprofileimage" />
+                {console.log(product.Shop)}
+                </div>
+                <div className="shop-card-mimi-info col-md-6">
+                                  <h5>{(product.Shop.name) } </h5>
+                         
+                </div>
+                <div className="shop-card-mimi-info col-md-6">
+                {/* <Link to={`/shop/${product.Shop.id}`}>
+                  <button>Xem Shop</button>
+                </Link> */}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -162,7 +197,7 @@ const SingleProduct = ({ history, match }) => {
             {feedbacks.length === 0 && (
                 <Message variant={"alert-info mt-3"}>No Reviews</Message>
               )}
-            {feedbacks.map((feedback) => (
+            {!flag_feedback && feedbacks.slice(0,2).map((feedback) => (
                 <div key={feedback._id} className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">
                   
                   <img src = {`${baseURL}images/users/${feedback.user.avatar}`} style={{"width": "42px","margin-top":"14px","margin-right":"10px"}} alt={feedback.user.username}/>
@@ -182,6 +217,36 @@ const SingleProduct = ({ history, match }) => {
                 </div>  
               ))
             }
+            {
+              !flag_feedback &&  <button type="button" class="btn-more-feedback" onClick={HandleSlideDown}>More ...</button>
+
+            }
+            {
+              flag_loader &&  <div class="parent-loader"><div class="loader"></div> </div>
+            }
+
+
+            {flag_feedback && feedbacks.map((feedback) => (
+                <div key={feedback._id} className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">
+                  
+                  <img src = {`${baseURL}images/users/${feedback.user.avatar}`} style={{"width": "42px","margin-top":"14px","margin-right":"10px"}} alt={feedback.user.username}/>
+                 
+                  <strong style={{}} >{feedback.user.username}</strong>
+                  <span style={{marginTop:"30px","margin-left":"-130px","position": "absolute","padding-top":"2px"}}>
+                  <Rating  style={{"transform": "scale(1.6)"}} value={feedback.rate}/>
+                  </span>
+                  
+                 
+                  
+                  <span style={{marginTop:"60px",marginBottom:"30px",marginLeft:"-130px","position": "absolute"}}>{moment(Number(feedback.createAt)).locale("vi").startOf("second").fromNow() }</span>
+                  
+                  <div className="alert alert-info mt-3" style={{}}>
+                   {feedback.comment}
+                  </div>
+                </div>  
+              ))
+            }
+
 
            
             
@@ -247,6 +312,7 @@ const SingleProduct = ({ history, match }) => {
         )
       }
       </div>
+      <div class="excess-space"></div>
     </>
   );
 };

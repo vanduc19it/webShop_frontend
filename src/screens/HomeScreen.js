@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./../components/Header";
-import ShopSection from "./../components/homeComponents/ShopSection";
+import ProductSection from "./../components/homeComponents/ProductSection";
 import ContactInfo from "./../components/homeComponents/ContactInfo";
 import CalltoActionSection from "./../components/homeComponents/CalltoActionSection";
 import Footer from "./../components/Footer";
@@ -9,6 +9,7 @@ import Category from "../components/homeComponents/Category";
 const HomeScreen = ({match}) => {
   window.scrollTo(0, 0);
   const keyword = match.params.keyword;
+  console.log(keyword)
   const pagenumber = match.params.pagenumber ? match.params.pagenumber : 1;
   
   console.log(pagenumber)
@@ -16,7 +17,7 @@ const HomeScreen = ({match}) => {
     <div>
       <Header />
       <Category/>
-      <ShopSection keyword={keyword} pagenumber={pagenumber} />
+      <ProductSection keyword={keyword} pagenumber={pagenumber} />
       <CalltoActionSection />
       <ContactInfo />
       <Footer />

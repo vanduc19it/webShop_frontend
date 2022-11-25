@@ -13,12 +13,20 @@ import 'primereact/resources/themes/saga-blue/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 import { getOrderDetail } from "../Redux/Actions/orderActions";
+import { Link } from "react-router-dom";
+
 
 const baseURL = "http://localhost:5000/";
 const ProfileScreen = ({match}) => {
   window.scrollTo(0, 0);
 
-  // const idUser = match.params.id;
+  const idUser = match.params.idUser;
+  const current_User = JSON.parse(window.localStorage.getItem("userInfo"));
+  console.log(idUser);
+  console.log("chào")
+  console.log(current_User.idUser+"" === idUser+""); 
+  console.log("chào")
+
   // console.log(idUser);
   
   const dispatch = useDispatch()
@@ -140,7 +148,7 @@ const ProfileScreen = ({match}) => {
                     aria-controls="v-pills-home"
                     aria-selected="true"
                   >
-                    Profile Settings
+                    Thông tin cá nhân
                   </button>
                   <button
                     class="nav-link"
@@ -152,7 +160,7 @@ const ProfileScreen = ({match}) => {
                     aria-controls="v-pills-password"
                     aria-selected="true"
                   >
-                    Change Password
+                    Thay đổi mật khẩu
                   </button>
                   <button
                     class="nav-link d-flex justify-content-between"
@@ -164,9 +172,34 @@ const ProfileScreen = ({match}) => {
                     aria-controls="v-pills-profile"
                     aria-selected="false"
                   >
-                    Orders List
+                    Danh sách đặt hàng
                     <span className="badge2">{order ? order.length : 0 }</span>
                   </button>
+                  
+                    { 
+                      (current_User.idUser+"" === idUser+"") &&
+                        (current_User.shopInfor) ?
+                        <Link to={`/shop/${current_User.shopInfor._id}`} >
+                          <button
+                            class="nav-link d-flex justify-content-between"
+                            type="button"
+                            role="tab"
+                            aria-controls="v-pills-profile"
+                            aria-selected="false"
+                          >
+                            Cửa hàng của bạn 
+                          </button>
+                        </Link>:
+                        <button
+                          class="nav-link d-flex justify-content-between"
+                          type="button"
+                          role="tab"
+                          aria-controls="v-pills-profile"
+                          aria-selected="false"
+                        >
+                          Đăng ký bán hàng {current_User.idUser+"" === idUser+""}
+                        </button>
+                    }
                 </div>
               </div>
             </div>

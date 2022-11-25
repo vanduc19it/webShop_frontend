@@ -58,7 +58,13 @@ textarea:focus {
   padding: 10px 0px 10px 0px;
 }
 .navbar-brand img {
-  width: 60%;
+  width: 25%;
+}
+.navbar-brand span {
+  color: #30ae13;
+  padding: 12px;
+  font-weight: bold;
+  
 }
 .input-group {
   height: 50px;
@@ -306,6 +312,15 @@ textarea:focus {
   margin-bottom: 30px;
 }
 
+.btn-more-feedback{
+  text-align: center;
+  color: #1cb803;
+  width: 100%;
+  height: 40px;
+  border-radius: 9px;
+  border: 3px solid #1cb803;
+  background-color: #fff;
+}
 .display-flex {
   display: flex;
 }
@@ -659,4 +674,122 @@ textarea:focus {
 .page-item.active .page-link {
   background-color: black;
   border: 1px solid black;
+}
+
+.excess-space{
+  height: 10px;
+}
+
+/* loader css  */
+.parent-loader{
+  margin-top:12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader {
+  text-align: center;
+
+  border: 10px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 10px solid #3498db;
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+/* Shop  */
+/* PROFILE */
+.shop-card {
+  position: relative;
+}
+.shop-card-cover {
+  height: 100px;
+  width: 100%;
+  background-size: cover;
+  background-image: url("https://gust.com/assets/blank_slate/Gust_Profile_CoverPhoto_Blank-21edf1e2890708d5a507204f49afc10b7dc58eb7baea100b68a1bc2c96948297.png");
+}
+.shop-card-profile {
+  padding: 20px 10px;
+}
+.shop-card-avatar {
+  padding: 0 20px;
+}
+.shop-card-avatar img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 100px;
+  margin-top: -60%;
+  box-shadow: 0px 0px 27px 0px rgba(0, 0, 0, 0.377);
+}
+
+.shop-card-name{
+  margin-top: 50px;
+}
+.shop-card-control{
+  margin-top: 25px;
+}
+.shop-card-mini{
+  align-items: center;
+  border-radius: 10px;
+  margin-top: 10px;
+  height: 80px;
+  display: flex;
+  background-color: #f5f5f5;
+}
+.shop-card-mimi-avatar img{
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 100px;
+  top: 0;
+  left: 0;
+  margin-left: 10px;
+  box-shadow: 0px 0px 27px 0px rgba(0, 0, 0, 0.377);
+}
+.shop-card-mimi-info button{
+  text-align: center;
+  color: #1cb803;
+  width: 40%;
+  height: 40px;
+  border-radius: 9px;
+  border: 3px solid #1cb803;
+  background-color: #fff;
+}
+
+
+.btn-follow-shop{
+  text-align: center;
+  color: #1cb803;
+  width: 100%;
+  height: 40px;
+  border-radius: 9px;
+  border: 3px solid #1cb803;
+  background-color: #fff;
+}
+.infor-shop-child{
+  font-family: inherit;
+  padding: inherit;
+  margin: 15px;
+}
+.infor-card-shop{
+  margin-top:10px;
+}
+.shop-product{
+  background-color: #f5f5f5;
+  margin-top:10px;
 }

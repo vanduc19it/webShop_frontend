@@ -12,7 +12,8 @@ import {PRODUCT_LIST_REQUEST,
        PRODUCT_CREATE_FEEDBACK_FAIL, 
        PRODUCT_CREATE_FEEDBACK_RESET,
        } from "../Constants/ProductConstants"
- import {PRODUCT_GET_FEEDBACK_REQUEST,PRODUCT_GET_FEEDBACK_SUCCESS,PRODUCT_GET_FEEDBACK_FAIL} from "../Constants/ProductConstants"
+ import {PRODUCT_GET_FEEDBACK_REQUEST,PRODUCT_GET_FEEDBACK_SUCCESS,PRODUCT_GET_FEEDBACK_FAIL} from "../Constants/ProductConstants"; 
+
 export const productListReducer = (state = { products: []}, action) => {
     switch (action.type) {
         case PRODUCT_LIST_REQUEST: 
@@ -33,6 +34,7 @@ export const productListReducer = (state = { products: []}, action) => {
 
 //product theo id
 export const productDetailReducer = (state = { product: {reviews: []}}, action) => {
+    console.log(action.type) ;
     switch (action.type) {
         case PRODUCT_DETAIL_REQUEST: 
             return {...state, loading: true}

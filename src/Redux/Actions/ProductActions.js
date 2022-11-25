@@ -46,9 +46,11 @@ export const searchProduct = (keyword="") => async (dispatch) => {
 //product theo id
 export const listProductDetail = (id) => async (dispatch) => {
     try {
-        console.log(id);
+        console.log("oke bro"); 
+        console.log(PRODUCT_DETAIL_SUCCESS);
+        console.log(PRODUCT_DETAIL_REQUEST)
         dispatch({type: PRODUCT_DETAIL_REQUEST});
-        const {data} = await axios.get(`http://localhost:5000/detail-product?idProduct=${id}`);
+        const {data} = await axios.get(`${baseURL}detail-product?idProduct=${id}`);
         console.log(data)
         dispatch({type:PRODUCT_DETAIL_SUCCESS, payload:data})
         
@@ -68,7 +70,7 @@ export const getProductFeedback = (idProduct) => async (dispatch) => {
         dispatch({type: PRODUCT_GET_FEEDBACK_REQUEST});
         const {data} = await axios.get(`http://localhost:5000/get-feedback/${idProduct}/all`);
         dispatch({type:PRODUCT_GET_FEEDBACK_SUCCESS, payload:data})
-        console.log(data)
+        // console.log(data)
         
         
     } catch (error) {

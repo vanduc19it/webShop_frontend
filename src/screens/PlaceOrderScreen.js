@@ -2,7 +2,7 @@ import React, { useEffect, useRef  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { createOrder } from "../Redux/Actions/orderActions";
-import { ORDER_CREATE_RESET } from "../Redux/Constants/orderConstants";
+import {orderContant} from "../Redux/Constants/index" ; 
 import Header from "./../components/Header";
 import Message from "./../components/LoadingError/Error";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
@@ -31,7 +31,7 @@ const PlaceOrderScreen = ({history}) => {
   useEffect(()=> {
     if (success) {
       // history.push(`/order/${order._id}`);
-      dispatch({type: ORDER_CREATE_RESET})
+      dispatch({type: orderContant.ORDER_CREATE_RESET})
     }
   },[history,success,order,dispatch])
 
