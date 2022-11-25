@@ -7,7 +7,10 @@ import { getOrderDetail, getOrderSingle } from "../Redux/Actions/orderActions";
 import Message from "./../components/LoadingError/Error";
 import Loading from "./../components/LoadingError/Loading";
 import moment from "moment";
-const baseURL = "http://localhost:5000/";
+import {BASE_URL_SERVER} from "../Redux/Constants/index";
+
+const baseURL = BASE_URL_SERVER;
+
 
 const OrderScreen = ({match}) => {
   window.scrollTo(0, 0);

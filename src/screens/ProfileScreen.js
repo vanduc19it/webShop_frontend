@@ -23,9 +23,9 @@ import Modal, {
 } from '@atlaskit/modal-dialog';
 import { Input } from "antd";
 import { createShop, getShopDetail } from "../Redux/Actions/shopActions";
+import {BASE_URL_SERVER} from "../Redux/Constants/index"; 
 
-
-const baseURL = "http://localhost:5000/";
+const baseURL = BASE_URL_SERVER;
 const ProfileScreen = ({match, history}) => {
   window.scrollTo(0, 0);
 

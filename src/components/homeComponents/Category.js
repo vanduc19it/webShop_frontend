@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import  { Component } from "react";
 import Slider from "react-slick";
+import axios from "axios";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../../../src/carousel.css"
-import axios from "axios";
-const baseURL = "http://localhost:5000/";
+import "../../../src/carousel.css";
+import {BASE_URL_SERVER} from "../../Redux/Constants/index" ; 
+
+const baseURL = BASE_URL_SERVER;
 
 const Category = () => {
 

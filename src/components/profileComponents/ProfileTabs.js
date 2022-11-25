@@ -7,7 +7,9 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import axios from "axios";
 
-const baseURL = "http://localhost:5000/";
+import {BASE_URL_SERVER} from "../../Redux/Constants/index" ; 
+
+const baseURL = BASE_URL_SERVER;
 const ProfileTabs = () => {
 
   const userLogin = useSelector((state)=> state.userLogin)
