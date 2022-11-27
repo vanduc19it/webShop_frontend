@@ -27,6 +27,8 @@ const ShopSection = (props) => {
  
   
   const [totalPage, setTotalPage] = useState({});
+
+  
   useEffect(()=> {
     const fetchTotalPage = async () => {
       const {data} = await axios.get(`${baseURL}count-all-product`);
