@@ -28,11 +28,11 @@ const SingleProduct = ({ history, match }) => {
   const [quantity, setQuantity] = useState(1)
 
   const productId = match.params.id;
+  console.log(productId)
  
   const dispatch = useDispatch();
 
-  const productDetail = useSelector((state)=> state.productDetail)
-  const {loading, error, product} = productDetail;
+  
 
   const userLogin = useSelector((state)=> state.userLogin)
   const {userInfo} = userLogin;
@@ -55,14 +55,28 @@ const SingleProduct = ({ history, match }) => {
       dispatch(getProductFeedback(productId))
 
     }
-    dispatch(listProductDetail(productId))
+  
    
   }, [dispatch, productId, successCreateFeedback]);
+
+
+  
+
+ 
+  
+      // console.log((shopvip.address))
+
     
+     
   useEffect(()=> {
+    dispatch(listProductDetail(productId))
     dispatch(getProductFeedback(productId))
 
   },[dispatch,productId])
+
+  
+  const productDetail = useSelector((state)=> state.productDetail)
+  const {loading, error, product} = productDetail;
 
   const submitHandler =(e) => {
     e.preventDefault();
@@ -159,10 +173,14 @@ const SingleProduct = ({ history, match }) => {
                   </div>
                   {console.log(product.Shop)}
                   <div className="shop-card-mimi-info col-md-6">
-                                    {/* <h5>{product.Shop.nameShop} </h5> */}
+                    {
+                      product.Shop && product.Shop.idShop && ( <h5>{product.Shop.nameShop} </h5>)
+                    }
+                                  
                           
                   </div>
                   <div className="shop-card-mimi-info col-md-6">
+                    
                   {/* <Link to={`/shop/${shop.id}`}>
                     <button>Xem Shop</button>
                   </Link> */}
