@@ -4,9 +4,12 @@ import Rating from "./Rating";
 import Pagination from "./pagination";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import {useHistory} from "react-router-dom"; 
+
 import { listProduct, productSearch, searchProduct } from "../../Redux/Actions/ProductActions";
-import {useHistory} from "react-router-dom"
-const baseURL = "http://localhost:5000/";
+import {BASE_URL_SERVER} from "../../Redux/Constants/index" ; 
+
+const baseURL = BASE_URL_SERVER;
 
 const ShopSection = (props) => {
   const {keyword} = props

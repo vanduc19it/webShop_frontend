@@ -15,10 +15,10 @@ import 'primeicons/primeicons.css';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.css';
-import { PRODUCT_CREATE_FEEDBACK_RESET } from "../Redux/Constants/ProductConstants";
+import { productConstant, BASE_URL_SERVER} from "../Redux/Constants/index";
 import moment from "moment";
 import { addToCart } from "../Redux/Actions/CartActions";
-const baseURL = "http://localhost:5000/";
+const baseURL = BASE_URL_SERVER;
 
 
 const SingleProduct = ({ history, match }) => {
@@ -51,8 +51,9 @@ const SingleProduct = ({ history, match }) => {
       toast.current.show({severity:'success', summary: 'Đánh giá sản phẩm', detail:'Đánh giá sản phẩm thành công', life: 3000});
       setRating(0)
       setComment("")
-      dispatch({type: PRODUCT_CREATE_FEEDBACK_RESET})
+      dispatch({type: productConstant.PRODUCT_CREATE_FEEDBACK_RESET})
       dispatch(getProductFeedback(productId))
+
     }
     dispatch(listProductDetail(productId))
    
@@ -60,6 +61,7 @@ const SingleProduct = ({ history, match }) => {
     
   useEffect(()=> {
     dispatch(getProductFeedback(productId))
+
   },[dispatch,productId])
 
   const submitHandler =(e) => {
@@ -150,6 +152,22 @@ const SingleProduct = ({ history, match }) => {
                   </>
                 ) : null}
               </div>
+              <div className="col-lg-12 shop-card-mini">
+                <div className="shop-card-mimi-avatar col-md-2">
+
+                  <img src={`${baseURL}images/shops/shop-default.png`} alt="userprofileimage" />
+                  </div>
+                  {console.log(product.Shop)}
+                  <div className="shop-card-mimi-info col-md-6">
+                                    {/* <h5>{product.Shop.nameShop} </h5> */}
+                          
+                  </div>
+                  <div className="shop-card-mimi-info col-md-6">
+                  {/* <Link to={`/shop/${shop.id}`}>
+                    <button>Xem Shop</button>
+                  </Link> */}
+                  </div>
+                </div>
             </div>
           </div>
         </div>
@@ -183,7 +201,7 @@ const SingleProduct = ({ history, match }) => {
               ))
             }
 
-           
+
             
           </div>
           <div className="col-md-6">

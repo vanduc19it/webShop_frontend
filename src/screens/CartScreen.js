@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../Redux/Actions/CartActions";
 import { Toast } from 'primereact/toast';
+import {BASE_URL_SERVER} from "../Redux/Constants/index" ;
 
-const baseURL = "http://localhost:5000/";
+const baseURL = BASE_URL_SERVER;
 const CartScreen = ({match, location, history}) => {
   window.scrollTo(0, 0);
   const dispatch = useDispatch();

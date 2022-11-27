@@ -1,15 +1,15 @@
-import { CREATE_SHOP_FAIL, CREATE_SHOP_REQUEST, CREATE_SHOP_SUCCESS, GET_SHOP_FAIL, GET_SHOP_REQUEST, GET_SHOP_SUCCESS } from "../Constants/shopConstants";
+import {shopConstant} from "../Constants/index";
 
 // tao shop
 export const createShopReducer = (state = { }, action) => {
     switch (action.type) {
-        case CREATE_SHOP_REQUEST: 
+        case shopConstant.CREATE_SHOP_REQUEST: 
             return {loading: true}
 
-        case CREATE_SHOP_SUCCESS: 
+        case shopConstant.CREATE_SHOP_SUCCESS: 
             return {loading: false, shopInfo: action.payload}
 
-        case CREATE_SHOP_FAIL: 
+        case shopConstant.CREATE_SHOP_FAIL: 
             return {loading: false, error: action.payload}
 
         default:
@@ -20,13 +20,13 @@ export const createShopReducer = (state = { }, action) => {
 // get info shop
 export const shopDetailReducer = (state = {shopInfo:{} }, action) => {
     switch (action.type) {
-        case GET_SHOP_REQUEST: 
+        case shopConstant.GET_SHOP_REQUEST: 
             return {...state, loading: true}
 
-        case GET_SHOP_SUCCESS: 
+        case shopConstant.GET_SHOP_SUCCESS: 
             return {loading: false, shopInfo: action.payload}
 
-        case GET_SHOP_FAIL: 
+        case shopConstant.GET_SHOP_FAIL: 
             return {loading: false, error: action.payload}
 
         default:
