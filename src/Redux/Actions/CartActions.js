@@ -17,6 +17,7 @@ export const addToCart = (id, quantity) => async (dispatch, getState) => {
     });
         
        localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+       console.log(getState());
 }
 
 //remove product to cart

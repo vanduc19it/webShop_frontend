@@ -37,8 +37,8 @@ const SingleProduct = ({ history, match }) => {
   const userLogin = useSelector((state)=> state.userLogin)
   const {userInfo} = userLogin;
 
-  const productGetFeedback = useSelector((state)=> state.productGetFeedback)
-  const {feedbacks} = productGetFeedback;
+    const productGetFeedback = useSelector((state)=> state.productGetFeedback)
+    const {feedbacks} = productGetFeedback;
   console.log(feedbacks)
 
   const desc = ['Quá thất vọng🤬🤬🤬', 'Không hài lòng😒😫🥴', 'Bình thường🥲🥲🥲', 'Hài lòng👍👍👍', 'Tuyệt vời😍😍😍'];
