@@ -181,9 +181,9 @@ const SingleProduct = ({ history, match }) => {
                   </div>
                   <div className="shop-card-mimi-info col-md-6">
                     
-                  {/* <Link to={`/shop/${shop.id}`}>
-                    <button>Xem Shop</button>
-                  </Link> */}
+                    <Link to={`/shop/${ product.Shop && product.Shop.idShop}`}>
+                      <button>Xem Shop</button>
+                    </Link>
                   </div>
                 </div>
             </div>

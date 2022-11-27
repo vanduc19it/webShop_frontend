@@ -5,7 +5,7 @@ import { productCreateFeedbackReducer, productDetailReducer, productGetFeedbackR
 import { checkPassReducer, userDetailReducer, userLoginReducer, userRegisterReducer, userUpdateImageReducer, userUpdateProfileReducer } from "./Reducers/userReducers";
 import { cartReducer } from "./Reducers/CartReducers";
 import { orderCreateReducer, orderDetailReducer, orderSingleReducer } from "./Reducers/orderReducers";
-import { createShopReducer, shopDetailReducer } from "./Reducers/shopReducers";
+import { createShopReducer, shopDetailReducer, shopInfornomal, productListShopReducer} from "./Reducers/shopReducers";
 const reducer = combineReducers({
     productList: productListReducer,
     productSearch: productSearchReducer,
@@ -24,6 +24,8 @@ const reducer = combineReducers({
     orderSingle: orderSingleReducer,
     createShop: createShopReducer,
     shopDetail: shopDetailReducer,
+    shopInfor: shopInfornomal, 
+    productShop: productListShopReducer,
 })
 
 const userInfoFromLocalStorage = localStorage.getItem("userInfo")
