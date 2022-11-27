@@ -48,3 +48,47 @@ export const getShopDetail = (idUser) => async (dispatch, getState) => {
         })
     }
 }
+
+//product list
+export const listProductByIdShop = (idShop="", pageNumber="") => async (dispatch) => {
+
+    try {
+
+        dispatch({type: shopConstant.PRODUCT_SHOP_LIST_REQUEST});
+        const {data} = await axios.get( `${baseURL}product/get-product-idShop/${idShop}/${pageNumber}`)
+        console.log("get data ")
+        console.log(data)
+        dispatch({type:shopConstant.PRODUCT_SHOP_LIST_SUCCESS, payload:data})
+        
+    } catch (error) {
+        dispatch({ 
+            type: shopConstant.PRODUCT_SHOP_LIST_FAIL,
+            payload:
+            error.response && error.response.data.message 
+            ? error.response.data.message
+            : error.message,
+        });
+    }
+};
+
+// get infor shop
+export const getInforShop = (idShop) => async (dispatch) => {
+    try {
+        console.log("constant") ; 
+        console.log(shopConstant) ; 
+        dispatch({type: shopConstant.GET_SHOP_INFOR_REQUEST});
+        const {data} = await axios.get( `${baseURL}shop/get-shop/${idShop}`)
+        console.log("get data ")
+        console.log(data)
+        dispatch({type:shopConstant.GET_SHOP_INFOR_SUCCESS, payload:data})
+        
+    } catch (error) {
+        dispatch({ 
+            type: shopConstant.GET_SHOP_INFOR_FAIL,
+            payload:
+            error.response && error.response.data.message 
+            ? error.response.data.message
+            : error.message,
+        });
+    }
+}

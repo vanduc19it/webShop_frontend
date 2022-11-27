@@ -21,6 +21,7 @@ import manageOrders from "./components/ShopComponents/manageOrders";
 import manageProducts from "./components/ShopComponents/manageProducts";
 import ProfileTabs from "./components/profileComponents/ProfileTabs";
 import UpdatePassword from "./components/profileComponents/UpdatePassword";
+import ShopScreen from "./screens/ShopScreen";
 
 const App = () => {
   
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/placeorder" component={PlaceOrderScreen} />
         <Route path="/order/:id" component={OrderScreen} />
         <Route path="/myshop" component={MyShopScreen} />
+        <Route path="/shop/:idShop" component={ShopScreen} />
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>
