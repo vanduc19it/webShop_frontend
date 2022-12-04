@@ -87,7 +87,7 @@ const Header = () => {
               <div className="row ">
                 <div className="col-6 d-flex align-items-center">
                   <Link className="navbar-brand" to="/">
-                    <img alt="logo" src="/images/logo.png" />
+                    <img alt="logo" src="/images/shopify.png" />
                   </Link>
                 </div>
                 <div className="col-6 d-flex align-items-center justify-content-end Login-Register">
@@ -166,8 +166,9 @@ const Header = () => {
             <div className="row">
               <div className="col-md-3 col-4 d-flex align-items-center">
                 <Link className="navbar-brand" to="/">
-                  <img alt="logo" src="/images/logo.png" />
+                  <img alt="logo" src="/images/shopify.png" /> 
                 </Link>
+                <h6 fontWeight="bold">HELLOYOU</h6>
               </div>
               <div className="col-md-6 col-8 d-flex align-items-center">
                 <form className="input-group" onSubmit={submitHandler}>
