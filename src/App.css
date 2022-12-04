@@ -744,3 +744,119 @@ textarea:focus {
   background-color: #f5f5f5;
   margin-top:10px;
 }
+
+/* css admin home */
+
+.row-full-x{
+  --bs-gutter-x: 0;
+}
+
+.line-hr-admin{
+  display: flex;
+  opacity: 1;
+  height: 2px; 
+  width: 100% ;
+  size: 2px; 
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eee;
+  background-color: aliceblue;
+
+}
+.line-hr-blue{
+  border-color:#2ab4c0 ;  
+  border-width: 3px;
+
+}
+
+.line-hr-red{
+  border-color: #f36a5a;
+  border-width: 3px;
+
+}
+
+.line-hr-Violet{
+  border-color:#8877a9 ; 
+  border-width: 3px;
+ 
+}
+
+
+.car-admin-statistical{
+  height: 150px ;
+  background-color: #ffffff; 
+  width: 95%;
+  
+}
+.car-main-admin{
+  margin-top:100px; 
+}
+
+.color-blue{
+  color: #2ab4c0;
+}
+.color-red{
+  color: #f36a5a;
+}
+.color-Violet{
+  color:#8877a9;
+}
+
+.card-statistical{
+  border: solid #dcdcdc 3px;
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0px 10px 30px #D9DBDF;
+  margin:20px;
+}
+.statistical{
+  float: left;
+  margin-top: auto; 
+  
+}
+.statistical p.statistical-amount{
+  font-size: 30px ; 
+  font-family: sans-serif;
+
+}
+.statistical p.statistical-gia{
+  font-size: 30px ; 
+  color: #f36a5a;
+  font-family: sans-serif;
+  
+}
+.statistical p.statistical-danhgia{
+  font-size: 30px ; 
+  color: #2ac4a0;
+  font-family: sans-serif;
+  
+}
+.statistical p.statistical-user{
+  font-size: 30px ; 
+  color: #8877a9;
+  font-family: sans-serif;
+  
+}
+.statistical p.statistical-deatil{
+  margin-top: -15px;
+  font-size: 16px; 
+  color: #9a9a9a;
+}
+.card-detail p.icon{
+  margin-top: 10px; 
+  font-size: 25px ; 
+  color: #9a9a9a;
+  float: right;
+
+}
+.btn-card-statistical{
+  float: right;
+  border-radius: 5px;
+  height: 30px ;
+  width: 70px; 
+  border-style: none; 
+  color: #ffffff;
+  background-color:  #9a9a9a;
+  font-weight: bold ; 
+}

@@ -103,7 +103,7 @@ const ProfileScreen = ({match, history}) => {
     if(shopInfo._id) {
       //chuyen huong qua trang shop cua toi
       
-      history.push("/myshop");
+      history.push("/admin/my-shop/");
     }else {
       //tao shop 
       setModalOpen(true);
