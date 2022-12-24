@@ -25,7 +25,8 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { Route, Router } from 'react-router';
-import manageProducts from '../components/ShopComponents/manageProducts';
+import ManageProducts from '../components/adminShopComponents/ManageProducts';
+import AdminAddProduct from "../components/adminShopComponents/AdminAddProduct";
 import manageOrders from '../components/ShopComponents/manageOrders';
 import ProfileTabs from '../components/profileComponents/ProfileTabs';
 import AdminHome  from '../components/adminShopComponents/AdminHome';
@@ -35,10 +36,11 @@ import UpdatePassword from '../components/profileComponents/UpdatePassword';
 
 
 function MyShopScreen({history}) {
+    const pathArray = window.location.pathname.split('/');
 
-    const [link, setLink] = useState("")
-
-
+    const [link, setLink] = useState(pathArray[3])
+    console.log(pathArray) ; 
+    // setLink(pathArray[0])
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl)
     const handleClick = (event) => {
@@ -150,6 +152,7 @@ function MyShopScreen({history}) {
           onSelect={(selected) => {
               const redirect = `/admin/my-shop/${selected}`;
               history.push(redirect);
+              console.log("set link qqq" + redirect); 
               setLink(selected);
           }}>
                   {/* <SideNav.Toggle aria-expanded="true"/> */}
@@ -205,14 +208,16 @@ function MyShopScreen({history}) {
 
         
         <div className='col-sm-10 car-main-admin' >
+          {link === "add-product" && (<AdminAddProduct/>)}
+
           {link === "" && (<AdminHome/>)}
           {link === "home" && (<AdminHome/>)}
-          {link === "product" && (<ProfileTabs/>)}
+          {link === "product" && (<ManageProducts/>)}
         </div>      
       </div> 
     </div>
     </>
-  )
-}
+  );
+};
 
-export default MyShopScreen
+export default MyShopScreen;
