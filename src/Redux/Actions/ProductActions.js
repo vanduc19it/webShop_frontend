@@ -117,3 +117,19 @@ export const createProductFeedback = (idProduct, idUser, rate,comment) => async 
         })
     }
 }
+
+// export const addNewProduct = (data) => async (dispatch, getState) => {
+//     dispatch({ type: categoryConstant.CATEGORY_GET_SUCCESS});
+    
+//     const config = {
+//         headers: {
+//             "Authorization": `${userInfo.token}`,
+//             "Content-Type":"application/json",
+
+//         }
+//     }
+//     const {result} = await axios.post(`${base_url}add-new-product`,data, config); 
+//     console.log(result);
+//     dispatch({type: categoryConstant.CATEGORY_GET_SUCCESS, payload:result}) ; 
+
+// }

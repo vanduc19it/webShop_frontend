@@ -42,7 +42,9 @@ const App = () => {
         <Route path="/order/:id" component={OrderScreen} />
         <Route path="/admin/my-shop/" component={adminShop} />
         <Route path="/shop/:idShop" component={ShopScreen} />
+
         <Route path="*" component={NotFound} />
+
       </Switch>
     </Router>
   );
