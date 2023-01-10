@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -28,9 +28,9 @@ const ManageProducts = () =>{
   return (
     <>
     <div className='col-sm-11' >
-      <Link to="/admin/my-shop/add-product" style={{float: "right"}}> 
+      <a href="/admin/my-shop/add-product" style={{float: "right"}}> 
             <div className='btn-admin-addProduct'><span>Thêm sản phẩm</span></div>
-      </Link>
+      </a>
     </div>
     <div className='col-sm-1'></div>
     <div className='col-sm-12' style={{    marginTop: "47px"}}>
