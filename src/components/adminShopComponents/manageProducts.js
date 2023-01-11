@@ -65,9 +65,9 @@ const ManageProducts = () =>{
                 <td>{item.price}</td>
                 <td>    
                   <div className='col-sm-11' >
-                    <Link style={{float: "right"}}> 
+                    <a href={`/admin/my-shop/update-product?id=${item._id}`} style={{float: "right"}}> 
                           <div className='btn-admin-editProduct'><span>Sửa</span></div>
-                    </Link>
+                    </a>
                   </div>
                 </td> 
                 <td>    

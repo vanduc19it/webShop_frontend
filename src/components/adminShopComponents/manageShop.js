@@ -59,7 +59,7 @@ const ManageShop = (props) =>{
 
     //
 
-    const [product, setShop] = React.useState({
+    const [shop, setShop] = React.useState({
       name:       userInfor.shopInfor.nameShop, 
       address:      userInfor.shopInfor.address, 
       phone:  userInfor.shopInfor.phone,
@@ -85,18 +85,18 @@ const ManageShop = (props) =>{
       console.log(event.target.id) ; 
       if(event.target.id === "name-shop"){
         setShop({ 
-          ...product,
+          ...shop,
           name: event.target.value, 
         
         })
       }else if(event.target.id === "address-shop"){
           setShop({ 
-              ...product,
+              ...shop,
               address: event.target.value, 
           })
       }else if(event.targer.id === "phone-shop"){
           setShop({ 
-              ...product,
+              ...shop,
               phone: event.target.value, 
           })
       }
@@ -160,10 +160,10 @@ const ManageShop = (props) =>{
         
 
         let dataSubmit = {
-          "nameShop":     product.name, 
-          "address":     product.address, 
-          "phone":  product.phone,
-          "description": product.description,
+          "nameShop":     shop.name, 
+          "address":     shop.address, 
+          "phone":  shop.phone,
+          "description": shop.description,
           "idUser": userInfor.idUser,
           "idShop": userInfor.shopInfor._id
         }
@@ -181,10 +181,10 @@ const ManageShop = (props) =>{
               ...userInfor,
               shopInfor: {
                 ...userInfor.shopInfor, 
-                "nameShop":     product.name, 
-                "address":     product.address, 
-                "phone":  product.phone,
-                "description": product.description,
+                "nameShop":     shop.name, 
+                "address":     shop.address, 
+                "phone":  shop.phone,
+                "description": shop.description,
                 "idUser": userInfor.idUser,
                 "idShop": userInfor.shopInfor._id
               }
@@ -239,7 +239,7 @@ return (
                   <Button onClick={saveImage} label="OK" icon="pi pi-check" />
                 </Dialog>
                 
-                  <div class="btn-admin-addProduct" style={{marginTop:"10px"}}  onClick={submitDataImage}> <span>Lưu hình ảnh</span></div>
+                  <div class="btn-admin-addShop" style={{marginTop:"10px"}}  onClick={submitDataImage}> <span>Lưu hình ảnh</span></div>
 
 
               </div> 
@@ -254,9 +254,9 @@ return (
                 <form name="upload" method="post" action="#" enctype="multipart/form-data" accept-charset="utf-8">
 
 
-                <TextField id="name-shop"  defaultValue={product.name} fullWidth label="Tên cửa hàng" variant="outlined"  onChange={handleValueShop}/>
-                <TextField id="address-shop" defaultValue={product.address} fullWidth label="Địa chỉ" style={{marginTop:"20px"}}   onChange={handleValueShop} />
-                <TextField id="phone-shop" defaultValue={product.phone} fullWidth label="Điện thoại" style={{marginTop:"20px"}}  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} onChange={handleValueShop} />
+                <TextField id="name-shop"  defaultValue={shop.name} fullWidth label="Tên cửa hàng" variant="outlined"  onChange={handleValueShop}/>
+                <TextField id="address-shop" defaultValue={shop.address} fullWidth label="Địa chỉ" style={{marginTop:"20px"}}   onChange={handleValueShop} />
+                <TextField id="phone-shop" defaultValue={shop.phone} fullWidth label="Điện thoại" style={{marginTop:"20px"}}  inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} onChange={handleValueShop} />
 
                 
 
@@ -272,7 +272,7 @@ return (
                         onChange={ ( event, editor ) => {
                             const data = editor.getData();
                             setShop({ 
-                                ...product,
+                                ...shop,
                                 description: data, 
                             })                      } }
                         onBlur={ ( event, editor ) => {
@@ -286,7 +286,7 @@ return (
                 <div className="col-md-12 center" style={{marginTop: "30px" }}>
 
                     <button type="button"  className="btn btn-primary btn-lg" onClick={submitData}>
-                    Cập nhật lại sản phẩm
+                    Cập nhật cửa h
                     </button>
                 </div>
                 <div className='col-md-12' style={{height: "50px"}}>
