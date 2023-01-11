@@ -36,7 +36,7 @@ import ManageOrders from '../components/ShopComponents/manageOrders';
 import ProfileTabs from '../components/profileComponents/ProfileTabs';
 import AdminHome  from '../components/adminShopComponents/AdminHome';
 import UpdatePassword from '../components/profileComponents/UpdatePassword';
-
+import UpdateProduct from "../components/adminShopComponents/updateProduct" ; 
 
 
 
@@ -262,6 +262,7 @@ function MyShopScreen({history}) {
           {link === "home" && (<AdminHome/>)}
           {link === "product" && (<ManageProducts/>)}
           {link === "shop-manage" && (<ManageShop userInfo={userInfo}/>)}
+          {link === "update-product" && (<UpdateProduct idProduct={userInfo.shopInfor._id}/>)}
 
           {link === "orders" && (<ManageOrders idShop={userInfo.shopInfor._id}/>)}
 

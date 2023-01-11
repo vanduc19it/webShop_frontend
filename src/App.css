@@ -1007,3 +1007,20 @@ table.GeneratedTable tr td {
   .setShow{
     display: block;
   }
+
+  .btn-admin-addShop {
+    margin: 0 auto;
+    width: 150px;
+    height: 30px;
+    border: solid #40a8ff 2px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  
+  }
+  .btn-admin-addShop:hover {
+    background-color: #40a8ff ;
+    color: #fff;  
+  }
