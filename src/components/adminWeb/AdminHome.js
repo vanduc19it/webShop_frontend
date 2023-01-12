@@ -26,8 +26,9 @@ const AdminHome = () => {
   const sortMethod = (a, b) => {
     return (Date(a.time) < Date(b.time))
   }
-
-  const [statiOrder, setOrder] = useState({}) ; 
+  const [quantiyUser, setQuantiyUser] = useState(0) ; 
+  const [categories, setCategories] = useState([]) ; 
+  const [countShop , setCountShop] = useState(0) ; 
   const [dateStati, setDateStati] = useState([]);
   const [priceStat, setPriceStat] = useState([]) ; 
   // get thống kê đánh giá
@@ -41,30 +42,35 @@ const AdminHome = () => {
     
     fetchlistFeedBack();
   },[]);
+  React.useEffect(()=> {
+    const fetchlistFeedBack = async () => {
+      const {data} = await axios.get(`${baseURL}shop/count-shop`);
 
-  useEffect(()=> {
- 
-    const fetchlistOrder = async () => {
-      const {data} = await axios.get(`${baseURL}shop/statistical-by-idShop/${userInfo.shopInfor._id}`);
-      console.log("hello")
-      console.log(data) ; 
 
-      let data1 = _.sortBy(data.total, [function(o) { return  Date(o.time); }]);
-      if(data1.length > 0){
-        let array1 = []; 
-        let arrayPrice = []; 
-        data1.forEach(item => {
-          array1.push(item.time) ; 
-          arrayPrice.push(item.price) ; 
-        });
-        setDateStati(array1);
-        setPriceStat(arrayPrice) ; 
-      }
-      console.log(data1) ; 
-      setOrder(data);
+      setCountShop(data);
     };
-    fetchlistOrder(); 
+    
+    fetchlistFeedBack();
   },[]);
+
+  React.useEffect(()=> {
+    const fetchlistFeedBack = async () => {
+      const {data} = await axios.get(`${baseURL}getQuanityUser`);
+      if(data.result)
+      setQuantiyUser(data.result);
+    };
+    
+    fetchlistFeedBack();
+  },[]);
+  React.useEffect(()=> {
+    const fetchlistFeedBack = async () => {
+      const {data} = await axios.get(`${baseURL}category`);
+      setCategories(data);
+    };
+    
+    fetchlistFeedBack();
+  },[]);
+
 
   console.log();
 
@@ -92,9 +98,7 @@ const AdminHome = () => {
       },
     ],
   };
-  if( statiOrder !== {}){
-   
-  } 
+
 
   const data_line = {
     labels: dateStati,
@@ -117,7 +121,7 @@ const AdminHome = () => {
             <div className="car-admin-statistical">
               <div className="col-sm-12 card-detail">
                 <div className="statistical" align="center">
-                  <p className="statistical-amount color-blue">{statiOrder.quanityOrder}</p>
+                  <p className="statistical-amount color-blue">{categories.length}</p>
                   <p className="statistical-deatil">DANH MỤC</p>
                 </div>
                 
@@ -133,7 +137,7 @@ const AdminHome = () => {
             <div className="car-admin-statistical">
               <div className="col-sm-12 card-detail">
                 <div className="statistical" align="center">
-                  <p className="statistical-amount color-red">{statiOrder.totalPrice}</p>
+                  <p className="statistical-amount color-red">{quantiyUser}</p>
                   <p className="statistical-deatil">NGƯỜI DÙNG</p>
                 </div>
                 
@@ -149,7 +153,7 @@ const AdminHome = () => {
             <div className="car-admin-statistical">
               <div className="col-sm-12 card-detail">
                 <div className="statistical" align="center">
-                  <p className="statistical-amount color-Violet">7</p>
+                  <p className="statistical-amount color-Violet">{countShop}</p>
                   <p className="statistical-deatil">CỬA HÀNG</p>
                 </div>
                 
