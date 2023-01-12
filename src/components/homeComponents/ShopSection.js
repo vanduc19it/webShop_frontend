@@ -74,8 +74,8 @@ const ShopSection = (props) => {
                         </p>
 
                         <Rating
-                          value={product.rating}
-                          text={`${product.numReviews} reviews`}
+                          value={product.rating ? product.rating : 5 }
+                          text={`5.5k reviews`}
                         />
                         <h3> { new Intl.NumberFormat('vi-VI', { style: 'currency', currency: 'VND' }).format(product.price)}</h3>
                       </div>

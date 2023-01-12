@@ -36,11 +36,8 @@ const OrderScreen = ({match}) => {
   useEffect(()=> {
     dispatch(getOrderSingle(orderId));
   },[dispatch, orderId])
-
- 
-
   const [status, setStatus] = useState('')
-
+ 
   useEffect(()=> {
     if(order) {
       if(order.status == 1) 
@@ -59,7 +56,6 @@ const OrderScreen = ({match}) => {
 
     }
   },[order])
-
  
 
   return (

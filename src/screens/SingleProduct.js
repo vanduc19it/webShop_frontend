@@ -92,6 +92,7 @@ const SingleProduct = ({ history, match }) => {
     history.push(`/cart/${productId}?quantity=${quantity}`)
     // toast.current.show({severity:'success', summary: 'Thêm sản phẩm', detail:'Thêm sản phẩm thành công', life: 1000});
   }
+  console.log(product.Shop)
   return (
     
     <>
@@ -170,8 +171,11 @@ const SingleProduct = ({ history, match }) => {
               <div className="col-lg-12 shop-card-mini">
                 <div className="shop-card-mimi-avatar col-md-2">
                     
-                  {/* <img src={`${baseURL}images/shops/${product.Shop.imgShop}`} alt="userprofileimage" /> */}
-                  <img src={`${baseURL}images/shops/shop-default.png`} alt="userprofileimage" />
+                  
+                  {
+                    product.Shop && product.Shop.imgShop && <img src={`${baseURL}images/shops/${product.Shop.imgShop}`} alt="userprofileimage" />
+                  }
+            
 
                   </div>
                   {console.log(product.Shop)}
@@ -207,13 +211,13 @@ const SingleProduct = ({ history, match }) => {
                   <img src = {`${baseURL}images/users/${feedback.user.avatar}`} style={{"width": "42px","margin-top":"14px","margin-right":"10px"}} alt={feedback.user.username}/>
                  
                   <strong style={{}} >{feedback.user.username}</strong>
-                  <span style={{marginTop:"30px","margin-left":"-130px","position": "absolute","padding-top":"2px"}}>
+                  <span style={{marginTop:"30px","margin-left":"-55px","position": "absolute","padding-top":"2px"}}>
                   <Rating  style={{"transform": "scale(1.6)"}} value={feedback.rate}/>
                   </span>
                   
                  
                   
-                  <span style={{marginTop:"60px",marginBottom:"30px",marginLeft:"-130px","position": "absolute"}}>{moment(Number(feedback.createAt)).locale("vi").startOf("second").fromNow() }</span>
+                  <span style={{marginTop:"60px",marginBottom:"30px",marginLeft:"-55px","position": "absolute"}}>{moment(Number(feedback.createAt)).locale("vi").startOf("second").fromNow() }</span>
                   
                   <div className="alert alert-info mt-3" style={{}}>
                    {feedback.comment}
