@@ -22,6 +22,12 @@ const AdminCategoies = () => {
 
 
 <div className="row" align="center">
+<div className='col-sm-11' >
+      <a href="/web/admin/add-category" style={{float: "right"}}> 
+            <div className='btn-admin-addProduct'><span>Thêm danh mục</span></div>
+      </a>
+    </div>
+    <div className='col-sm-1'></div>
         <table class="GeneratedTable" align="center" >
           <thead>
             <tr>
