@@ -111,6 +111,7 @@ const Header = () => {
                         <Link className="dropdown-item" to="#" onClick={logoutHandler}>
                           Logout
                         </Link>
+
                       </div>
                   </div>
                     )
