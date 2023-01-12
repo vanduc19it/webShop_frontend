@@ -3,6 +3,7 @@ import { Button, Box, Modal, Fade ,Backdrop  } from '@mui/material';
 
 import {BASE_URL_SERVER} from "../../Redux/Constants/index" ;
 import axios  from 'axios';
+import { Dropdown } from 'primereact/dropdown';
 const ManageOrders = (props) => {
   
   const baseURL = BASE_URL_SERVER;
@@ -66,6 +67,14 @@ const ManageOrders = (props) => {
     console.log(listOrder) ; 
   
 
+    const StatusItem = [
+      {label: 'CHỜ XÁC NHẬN', value: '1'},
+      {label: 'ĐÃ XÁC NHẬN', value: '2'},
+      {label: 'ĐANG GIAO HÀNG', value: '3'},
+      {label: 'ĐÃ GIAO HÀNG', value: '4'},
+  ];
+  const [status, setStatus] = React.useState("")
+
   return (
     <>
     <table class="GeneratedTable" align="center" >
@@ -91,7 +100,7 @@ const ManageOrders = (props) => {
                 <td>{item.totalPrice}</td>
                 <td>{item.createAt}</td>
                 <td>{item.message}</td>
-                <td></td>
+                <td><Dropdown className="form-control"id="dropdown" value={status} options={StatusItem} onChange={(e) => setStatus(e.target.value)} placeholder="Manage"/></td>
                 <td style={{    textAlign: "center"}}>
                   <Button id={item._id} variant="outlined" size="small" style={{fontSize:"9px"}}  onClick={handleOpen}>xem chi tiết</Button>
                 </td>
