@@ -75,7 +75,11 @@ const ProductSection = (props) => {
                           value={product.rating ? product.rating : 5 }
                           text={`5.5k reviews`}
                         />
+
                         <h3 style={{fontSize: '16px'}}>Giá: <span style={{color: 'red', fontSize: '16px'}}>{product.price}<sup>đ</sup> </span></h3>
+
+                        <h3> { new Intl.NumberFormat('vi-VI', { style: 'currency', currency: 'VND' }).format(product.price)}</h3>
+
                       </div>
                     </div>
                   </div>

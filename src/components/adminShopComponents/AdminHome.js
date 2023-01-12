@@ -1,18 +1,81 @@
 import React, { useEffect, useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import _ from "lodash" ; 
 import axios from "axios";
 import Chartpie from "./chartPie";
 import ChartLine from "./chartLine";
 
+import { BASE_URL_SERVER } from "../../Redux/Constants";
 
 const AdminHome = () => {
+
+  const baseURL = BASE_URL_SERVER ; 
+  const userLogin = useSelector((state)=> state.userLogin)
+  const {userInfo} = userLogin;
+  const [statiFeedBack, setFeedBack] = useState({
+    quanityFeedback: 0,
+    star: {
+        star_1: 0,
+        star_2: 0,
+        star_3: 0,
+        star_4: 0,
+        star_5: 0
+    }
+  }) ; 
+
+  const sortMethod = (a, b) => {
+    return (Date(a.time) < Date(b.time))
+  }
+
+  const [statiOrder, setOrder] = useState({}) ; 
+  const [dateStati, setDateStati] = useState([]);
+  const [priceStat, setPriceStat] = useState([]) ; 
+  // get thống kê đánh giá
+  React.useEffect(()=> {
+    const fetchlistFeedBack = async () => {
+      const {data} = await axios.get(`${baseURL}feedback/get-statistical-idshop/${userInfo.shopInfor._id}`);
+
+
+      setFeedBack(data);
+    };
+    
+    fetchlistFeedBack();
+  },[]);
+
+  useEffect(()=> {
+ 
+    const fetchlistOrder = async () => {
+      const {data} = await axios.get(`${baseURL}shop/statistical-by-idShop/${userInfo.shopInfor._id}`);
+      console.log("hello")
+      console.log(data) ; 
+
+      let data1 = _.sortBy(data.total, [function(o) { return  Date(o.time); }]);
+      if(data1.length > 0){
+        let array1 = []; 
+        let arrayPrice = []; 
+        data1.forEach(item => {
+          array1.push(item.time) ; 
+          arrayPrice.push(item.price) ; 
+        });
+        setDateStati(array1);
+        setPriceStat(arrayPrice) ; 
+      }
+      console.log(data1) ; 
+      setOrder(data);
+    };
+    fetchlistOrder(); 
+  },[]);
+
+  console.log();
+
+
   const data_line1 = [100, 342,543 ,74 ,588,623 , 332,  ]
   const data = {
     labels: ['1 sao', '2 sao', '3 sao', '4 sao', '5 sao'],
     datasets: [
       {
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2],
+        label: '# of Votes',  
+        data: [statiFeedBack.star.star_1, statiFeedBack.star.star_2, statiFeedBack.star.star_3, statiFeedBack.star.star_4, statiFeedBack.star.star_5],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -29,19 +92,22 @@ const AdminHome = () => {
       },
     ],
   };
+  if( statiOrder !== {}){
+   
+  } 
+
   const data_line = {
-    labels: ['Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+    labels: dateStati,
     datasets: [
       {
         label: 'Doanh thu',
-        data: data_line1,
+        data: priceStat,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
       
     ],
   };
-  
   return (
     <>
 
@@ -51,7 +117,7 @@ const AdminHome = () => {
             <div className="car-admin-statistical">
               <div className="col-sm-12 card-detail">
                 <div className="statistical" align="center">
-                  <p className="statistical-amount color-blue">7</p>
+                  <p className="statistical-amount color-blue">{statiOrder.quanityOrder}</p>
                   <p className="statistical-deatil">ĐƠN HÀNG</p>
                 </div>
                 
@@ -67,7 +133,7 @@ const AdminHome = () => {
             <div className="car-admin-statistical">
               <div className="col-sm-12 card-detail">
                 <div className="statistical" align="center">
-                  <p className="statistical-amount color-red">7</p>
+                  <p className="statistical-amount color-red">{statiOrder.totalPrice}</p>
                   <p className="statistical-deatil">DOANH THU</p>
                 </div>
                 
