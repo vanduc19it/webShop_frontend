@@ -67,15 +67,15 @@ const ShopSection = (props) => {
                       </Link>
 
                       <div className="shoptext">
-                        <p>
+                      <p style={{fontWeight: 'bold'}}>
                           <Link to={`/products/${product._id}`}>
                             {product.nameProduct}
                           </Link>
                         </p>
 
                         <Rating
-                          value={product.rating}
-                          text={`${product.numReviews} reviews`}
+                          value={product.rating ? product.rating : 5 }
+                          text={`5.5k reviews`}
                         />
                         <h3> { new Intl.NumberFormat('vi-VI', { style: 'currency', currency: 'VND' }).format(product.price)}</h3>
                       </div>

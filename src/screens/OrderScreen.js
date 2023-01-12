@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import Header from "./../components/Header";
 import { PayPalButton } from "react-paypal-button-v2";
@@ -38,27 +38,6 @@ const OrderScreen = ({match}) => {
   },[dispatch, orderId])
 
  
-
-  const [status, setStatus] = useState('')
-
-  useEffect(()=> {
-    if(order) {
-      if(order.status == 1) 
-      {
-        setStatus('Đang chờ xác nhận')
-      }else if(order.status == 2) 
-      {
-        setStatus('Đã xác nhận')
-      }else if(order.status == 3) 
-      {
-        setStatus('Đang giao hàng')
-      }else
-      {
-        setStatus('Đã giao hàng')
-      }
-
-    }
-  },[order])
 
  
 
@@ -151,7 +130,7 @@ const OrderScreen = ({match}) => {
                 ):(
                   <div className="bg-danger p-2 col-12">
                   <p className="text-white text-center text-sm-start">
-                  Trạng thái đơn hàng: {status}
+                    Đơn hàng chưa được giao.
                   </p>
                 </div>
                 )
