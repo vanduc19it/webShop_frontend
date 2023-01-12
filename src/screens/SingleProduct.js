@@ -17,7 +17,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.css';
 import { productConstant, BASE_URL_SERVER} from "../Redux/Constants/index";
 import moment from "moment";
-import { addToCart } from "../Redux/Actions/CartActions";
+import { addToCart, addToCartDB } from "../Redux/Actions/CartActions";
 const baseURL = BASE_URL_SERVER;
 
 
@@ -59,13 +59,6 @@ const SingleProduct = ({ history, match }) => {
    
   }, [dispatch, productId, successCreateFeedback]);
 
-
-  
-
- 
-  
-      // console.log((shopvip.address))
-
     
      
   useEffect(()=> {
@@ -87,6 +80,7 @@ const SingleProduct = ({ history, match }) => {
   //them san pham vao gio hang
   const HandleAddtoCart = (e) => {
     e.preventDefault()
+    dispatch(addToCartDB(userInfo.idUser, product, quantity))
     // dispatch(addToCart(productId, quantity))
     history.push(`/cart/${productId}?quantity=${quantity}`)
     // toast.current.show({severity:'success', summary: 'Thêm sản phẩm', detail:'Thêm sản phẩm thành công', life: 1000});
@@ -124,7 +118,7 @@ const SingleProduct = ({ history, match }) => {
               <div className="product-count col-lg-12 ">
                 <div className="flex-box d-flex justify-content-between align-items-center">
                   <h6>Price</h6>
-                  <span>${product.price}</span>
+                  <span style={{color: "red"}}>{product.price}<sup>đ</sup></span>
                 </div>
                 <div className="flex-box d-flex justify-content-between align-items-center">
                   <h6>Status</h6>
@@ -204,13 +198,13 @@ const SingleProduct = ({ history, match }) => {
                   <img src = {`${baseURL}images/users/${feedback.user.avatar}`} style={{"width": "42px","margin-top":"14px","margin-right":"10px"}} alt={feedback.user.username}/>
                  
                   <strong style={{}} >{feedback.user.username}</strong>
-                  <span style={{marginTop:"30px","margin-left":"-130px","position": "absolute","padding-top":"2px"}}>
+                  <span style={{marginTop:"30px","margin-left":"-55px","position": "absolute","padding-top":"2px"}}>
                   <Rating  style={{"transform": "scale(1.6)"}} value={feedback.rate}/>
                   </span>
                   
                  
                   
-                  <span style={{marginTop:"60px",marginBottom:"30px",marginLeft:"-130px","position": "absolute"}}>{moment(Number(feedback.createAt)).locale("vi").startOf("second").fromNow() }</span>
+                  <span style={{marginTop:"60px",marginBottom:"30px",marginLeft:"-55px","position": "absolute"}}>{moment(Number(feedback.createAt)).locale("vi").startOf("second").fromNow() }</span>
                   
                   <div className="alert alert-info mt-3" style={{}}>
                    {feedback.comment}
@@ -258,7 +252,7 @@ const SingleProduct = ({ history, match }) => {
               </div>
               <div className="my-3">
                 <button disabled={loadingCreateFeedback} className="col-12 bg-black border-0 p-3 rounded text-white">
-                  ĐĂNG
+                  ĐÁNH GIÁ
                 </button>
               </div>
             </form>

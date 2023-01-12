@@ -25,7 +25,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { Route, Router } from 'react-router';
-import ManageProducts from '../components/adminShopComponents/ManageProducts';
+import ManageProducts from '../components/adminShopComponents/manageProducts';
 import AdminAddProduct from "../components/adminShopComponents/AdminAddProduct";
 import manageOrders from '../components/ShopComponents/manageOrders';
 import ProfileTabs from '../components/profileComponents/ProfileTabs';

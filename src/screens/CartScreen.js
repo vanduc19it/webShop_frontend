@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Header from "./../components/Header";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "../Redux/Actions/CartActions";
+import { addToCart, removeFromCart, removeFromCartDB } from "../Redux/Actions/CartActions";
 import { Toast } from 'primereact/toast';
 import {BASE_URL_SERVER} from "../Redux/Constants/index" ;
 
@@ -13,7 +13,8 @@ const CartScreen = ({match, location, history}) => {
   const productId = match.params.id;
   const quantity = location.search ? Number(location.search.split("=")[1]) : 1
 
-
+  const userLogin = useSelector((state)=> state.userLogin)
+  const {userInfo} = userLogin;
 
   const cart = useSelector((state)=> state.cart)
   const {cartItems} = cart;
@@ -32,6 +33,7 @@ const CartScreen = ({match, location, history}) => {
   const toast = useRef(null);
   const handleRemoveProduct = (id) => {
     dispatch(removeFromCart(id))
+    dispatch(removeFromCartDB(userInfo.idUser, id))
     history.push(`/cart`)
     toast.current.show({severity:'success', summary: 'Xóa sản phẩm', detail:'Xóa sản phẩm thành công', life: 1000});
 
@@ -96,7 +98,7 @@ const CartScreen = ({match, location, history}) => {
               </div>
               <div className="cart-price mt-3 mt-md-0 col-md-2 align-items-sm-end align-items-start  d-flex flex-column justify-content-center col-sm-7">
                 <h6>Giá</h6>
-                <h4>${item.price}</h4>
+                <h4 >{item.price}<sup>đ</sup></h4>
               </div>
             </div>
             ))
@@ -105,8 +107,8 @@ const CartScreen = ({match, location, history}) => {
   
           {/* End of cart iterms */}
           <div className="total">
-            <span className="sub">total:</span>
-            <span className="total-price">${totalPrice}</span>
+            <span className="sub">tổng tiền:</span>
+            <span className="total-price" style={{color: 'red'}}>{totalPrice} <sup>đ</sup></span>
           </div>
           <hr />
           <div className="cart-buttons d-flex align-items-center row">

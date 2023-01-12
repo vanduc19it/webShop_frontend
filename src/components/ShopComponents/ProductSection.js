@@ -65,17 +65,17 @@ const ProductSection = (props) => {
                       </Link>
 
                       <div className="shoptext">
-                        <p>
+                        <p style={{fontWeight: 'bold'}}>
                           <Link to={`/products/${product._id}`}>
                             {product.nameProduct}
                           </Link>
                         </p>
 
                         <Rating
-                          value={product.rating}
-                          text={`${product.numReviews} reviews`}
+                          value={product.rating ? product.rating : 5 }
+                          text={`5.5k reviews`}
                         />
-                        <h3> {product.price}<sup>đ</sup></h3>
+                        <h3 style={{fontSize: '16px'}}>Giá: <span style={{color: 'red', fontSize: '16px'}}>{product.price}<sup>đ</sup> </span></h3>
                       </div>
                     </div>
                   </div>

@@ -1,9 +1,8 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import Header from "./../components/Header";
-import { PayPalButton } from "react-paypal-button-v2";
 import { useSelector, useDispatch } from "react-redux";
-import { getOrderDetail, getOrderSingle } from "../Redux/Actions/orderActions";
+import {  getOrderSingle } from "../Redux/Actions/orderActions";
 import Message from "./../components/LoadingError/Error";
 import Loading from "./../components/LoadingError/Loading";
 import moment from "moment";
@@ -37,8 +36,27 @@ const OrderScreen = ({match}) => {
     dispatch(getOrderSingle(orderId));
   },[dispatch, orderId])
 
+  const [status, setStatus] = useState('')
  
-
+  useEffect(()=> {
+    if(order) {
+      if(order.status == 1) 
+      {
+        setStatus('Đang chờ xác nhận')
+      }else if(order.status == 2) 
+      {
+        setStatus('Đã xác nhận')
+      }else if(order.status == 3) 
+      {
+        setStatus('Đang giao hàng')
+      }else
+      {
+        setStatus('Đã giao hàng')
+      }
+      
+    }
+  },[order])
+  
  
 
   return (
@@ -130,7 +148,7 @@ const OrderScreen = ({match}) => {
                 ):(
                   <div className="bg-danger p-2 col-12">
                   <p className="text-white text-center text-sm-start">
-                    Đơn hàng chưa được giao.
+                    Trạng thái đơn hàng: {status} 
                   </p>
                 </div>
                 )
@@ -166,7 +184,7 @@ const OrderScreen = ({match}) => {
                       </div>
                       <div className="mt-3 mt-md-0 col-md-2 col-6 align-items-end  d-flex flex-column justify-content-center ">
                         <h4>GIÁ</h4>
-                        <h6>{item.quantity * item.unit_price} đ</h6>
+                        <h6 style={{color: 'red'}} >{item.quantity * item.unit_price} <sup>đ</sup></h6>
                       </div>
                     </div>
                       ))
@@ -184,19 +202,19 @@ const OrderScreen = ({match}) => {
                   <td>
                     <strong>Products</strong>
                   </td>
-                  <td>{order.itemsPrice} đ</td>
+                  <td style={{color: 'blue'}}>{order.itemsPrice} <sup>đ</sup></td>
                 </tr>
                 <tr>
                   <td>
                     <strong>Shipping</strong>
                   </td>
-                  <td>{order.shippingPrice == 0 ? "Freeship" : order.shippingPrice +" đ" }</td>
+                  <td style={{color: 'green'}}>{order.shippingPrice == 0 ? "Freeship" : order.shippingPrice +" đ" }</td>
                 </tr>
                 <tr>
                   <td>
-                    <strong>Total</strong>
+                    <strong >Total</strong>
                   </td>
-                  <td>{order.totalPrice} đ</td>
+                  <td style={{color: 'red'}}>{order.totalPrice} <sup>đ</sup></td>
                 </tr>
               </tbody>
             </table>

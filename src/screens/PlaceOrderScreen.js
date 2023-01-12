@@ -5,7 +5,7 @@ import { createOrder } from "../Redux/Actions/orderActions";
 import { orderContant } from "../Redux/Constants/index";
 import Header from "./../components/Header";
 import Message from "./../components/LoadingError/Error";
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { ConfirmDialog} from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import {BASE_URL_SERVER} from "../Redux/Constants/index" ; 
 const baseURL = BASE_URL_SERVER;
@@ -157,12 +157,12 @@ const PlaceOrderScreen = ({history}) => {
                         </Link>
                       </div>
                       <div className="mt-3 mt-md-0 col-md-2 col-6  d-flex align-items-center flex-column justify-content-center ">
-                        <h4>QUANTITY</h4>
+                        <h4>SỐ LƯỢNG</h4>
                         <h6>{item.quantity}</h6>
                       </div>
                       <div className="mt-3 mt-md-0 col-md-2 col-6 align-items-end  d-flex flex-column justify-content-center ">
-                        <h4>SUBTOTAL</h4>
-                        <h6>${item.quantity * item.price}</h6>
+                        <h4>TỔNG TIỀN</h4>
+                        <h6 style={{color: 'red'}}>{item.quantity * item.price} <sup>đ</sup></h6>
                       </div>
                     </div>
                     ))
@@ -180,19 +180,19 @@ const PlaceOrderScreen = ({history}) => {
                   <td>
                     <strong>Products</strong>
                   </td>
-                  <td>{cart.itemsPrice} đ</td>
+                  <td style={{color: 'blue'}}>{cart.itemsPrice}<sup>đ</sup></td>
                 </tr>
                 <tr>
                   <td>
                     <strong>Shipping</strong>
                   </td>
-                  <td>{cart.shippingPrice === 0 ? "Freeship" : cart.shippingPrice +" đ" }</td>
+                  <td style={{color: 'green'}}>{cart.shippingPrice === 0 ? "Freeship" : cart.shippingPrice +" đ" }</td>
                 </tr>
                 <tr>
                   <td>
                     <strong>Total</strong>
                   </td>
-                  <td>{cart.totalPrice} đ</td>
+                  <td style={{color: 'red'}}>{cart.totalPrice}<sup>đ</sup> </td>
                 </tr>
               </tbody>
             </table>

@@ -9,11 +9,12 @@ const ShippingScreen = ({history}) => {
 
   const cart = useSelector((state)=> state.cart)
   const {shippingInfo} = cart;
+  console.log(shippingInfo)
 
-  const [address, setAddress] = useState(shippingInfo.address);
-  const [city, setCity] = useState(shippingInfo.city);
-  const [phone, setPhone] = useState(shippingInfo.phone);
-  const [message, setMessage] = useState(shippingInfo.message);
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
 
   const dispatch = useDispatch();
 
