@@ -8,6 +8,7 @@ import Message from "./../components/LoadingError/Error";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import {BASE_URL_SERVER} from "../Redux/Constants/index" ; 
+import { getShopDetail } from "../Redux/Actions/shopActions";
 const baseURL = BASE_URL_SERVER;
 
 const PlaceOrderScreen = ({history}) => {
@@ -17,7 +18,12 @@ const PlaceOrderScreen = ({history}) => {
   const cart = useSelector((state)=> state.cart);
   const userLogin = useSelector((state)=> state.userLogin)
   const {userInfo} = userLogin;
+  useEffect(()=> {
+    dispatch(getShopDetail(userInfo.idUser));
+  },[dispatch, userInfo.idUser])
 
+  const shopDetail = useSelector((state)=> state.shopDetail )
+  const { shopInfo } = shopDetail ;
    
   cart.itemsPrice  = cart.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
   
@@ -42,6 +48,7 @@ const PlaceOrderScreen = ({history}) => {
       dispatch( 
         createOrder({
           orderItems: cart.cartItems,
+          idShop: shopInfo._id,
           shippingInfo: cart.shippingInfo,
           paymentMethod: cart.paymentMethod,
           itemsPrice: cart.itemsPrice,

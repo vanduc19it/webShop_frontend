@@ -23,12 +23,13 @@ export const createOrder = (order) => async (dispatch, getState) => {
             shippintInfor:
                 {
                 idUser: userInfo.idUser,
-                namedReceiver: userInfo.username,  
+                namedReceiver: userInfo.username,
+                idShop: order.idShop,
                 addressReceiver: order.shippingInfo.address, 
                 phoneReceiver: order.shippingInfo.phone,  
                 payment: order.paymentMethod,             
                 totalPrice: order.totalPrice,
-                message: order.shippingInfo.message
+                message: order.shippingInfo.message,
                 }, 
         }; 
 

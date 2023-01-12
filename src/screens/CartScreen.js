@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart, removeFromCartDB } from "../Redux/Actions/CartActions";
 import { Toast } from 'primereact/toast';
 import {BASE_URL_SERVER} from "../Redux/Constants/index" ;
+import Item from "antd/lib/list/Item";
 
 const baseURL = BASE_URL_SERVER;
 const CartScreen = ({match, location, history}) => {
@@ -90,8 +91,8 @@ const CartScreen = ({match, location, history}) => {
               <div className="cart-qty col-md-2 col-sm-5 mt-md-5 mt-3 mt-md-0 d-flex flex-column justify-content-center">
                 <h6>QUANTITY</h6>
                 <select value={item.quantity} onChange={(e)=> dispatch(addToCart(item.product, Number(e.target.value)))}>
-                        {[...Array(item.quantity).keys()].map((x) => (
-                          <option key={x + 1} value={x + 1}>
+                  {[...Array(item.Totalquantity).keys()].map((x) => (                          
+                  <option key={x + 1} value={x + 1}>
                             {x + 1}
                           </option>
                         ))}

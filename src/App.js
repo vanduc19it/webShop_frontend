@@ -22,6 +22,7 @@ import manageProducts from "./components/ShopComponents/manageProducts";
 import ProfileTabs from "./components/profileComponents/ProfileTabs";
 import UpdatePassword from "./components/profileComponents/UpdatePassword";
 import ShopScreen from "./screens/ShopScreen";
+import AdminHomeWeb from "./screens/AdminHomeWeb" ; 
 
 const App = () => {
   
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/order/:id" component={OrderScreen} />
         <Route path="/admin/my-shop/" component={adminShop} />
         <Route path="/shop/:idShop" component={ShopScreen} />
+        <Route path="/web/admin" component={AdminHomeWeb} />
 
         <Route path="*" component={NotFound} />
 
