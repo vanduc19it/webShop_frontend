@@ -8,6 +8,7 @@ import {BASE_URL_SERVER} from "../Redux/Constants/index" ;
 
 const baseURL = BASE_URL_SERVER;
 const CartScreen = ({match, location, history}) => {
+  console.log("hello") ; 
   window.scrollTo(0, 0);
   const dispatch = useDispatch();
   const productId = match.params.id;
