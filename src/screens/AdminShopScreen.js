@@ -152,7 +152,7 @@ function MyShopScreen({history}) {
           onSelect={(selected) => {
               const redirect = `/admin/my-shop/${selected}`;
               history.push(redirect);
-              console.log("set link qqq" + redirect); 
+              console.log("set link " + redirect); 
               setLink(selected);
           }}>
                   {/* <SideNav.Toggle aria-expanded="true"/> */}
