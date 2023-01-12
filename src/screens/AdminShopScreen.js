@@ -38,7 +38,7 @@ import AdminHome  from '../components/adminShopComponents/AdminHome';
 import UpdatePassword from '../components/profileComponents/UpdatePassword';
 import UpdateProduct from "../components/adminShopComponents/updateProduct" ; 
 
-
+//
 
 function MyShopScreen({history}) {
   const pathArray = window.location.pathname.split('/');
