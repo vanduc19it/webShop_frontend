@@ -17,7 +17,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.css';
 import { productConstant, BASE_URL_SERVER} from "../Redux/Constants/index";
 import moment from "moment";
-import { addToCart } from "../Redux/Actions/CartActions";
+import { addToCart, addToCartDB } from "../Redux/Actions/CartActions";
 const baseURL = BASE_URL_SERVER;
 
 
@@ -87,6 +87,7 @@ const SingleProduct = ({ history, match }) => {
   //them san pham vao gio hang
   const HandleAddtoCart = (e) => {
     e.preventDefault()
+    dispatch(addToCartDB(userInfo.idUser, product, quantity))
     // dispatch(addToCart(productId, quantity))
     history.push(`/cart/${productId}?quantity=${quantity}`)
     // toast.current.show({severity:'success', summary: 'Thêm sản phẩm', detail:'Thêm sản phẩm thành công', life: 1000});
