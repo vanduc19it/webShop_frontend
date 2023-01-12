@@ -124,7 +124,7 @@ const SingleProduct = ({ history, match }) => {
               <div className="product-count col-lg-12 ">
                 <div className="flex-box d-flex justify-content-between align-items-center">
                   <h6>Price</h6>
-                  <span>${product.price}</span>
+                  <span>{ new Intl.NumberFormat('vi-VI', { style: 'currency', currency: 'VND' }).format(product.price)}</span>
                 </div>
                 <div className="flex-box d-flex justify-content-between align-items-center">
                   <h6>Status</h6>
@@ -168,8 +168,10 @@ const SingleProduct = ({ history, match }) => {
               </div>
               <div className="col-lg-12 shop-card-mini">
                 <div className="shop-card-mimi-avatar col-md-2">
-
+                    
+                  {/* <img src={`${baseURL}images/shops/${product.Shop.imgShop}`} alt="userprofileimage" /> */}
                   <img src={`${baseURL}images/shops/shop-default.png`} alt="userprofileimage" />
+
                   </div>
                   {console.log(product.Shop)}
                   <div className="shop-card-mimi-info col-md-6">
