@@ -30,6 +30,7 @@ const AdminHome = () => {
   const [statiOrder, setOrder] = useState({}) ; 
   const [dateStati, setDateStati] = useState([]);
   const [priceStat, setPriceStat] = useState([]) ; 
+  const [product, setProduct] = useState([]) ; 
   // get thống kê đánh giá
   React.useEffect(()=> {
     const fetchlistFeedBack = async () => {
@@ -37,6 +38,16 @@ const AdminHome = () => {
 
 
       setFeedBack(data);
+    };
+    
+    fetchlistFeedBack();
+  },[]);
+  React.useEffect(()=> {
+    const fetchlistFeedBack = async () => {
+      const {data} = await axios.get(`${baseURL}product/get-product-idShop/${userInfo.shopInfor._id}/all`);
+
+
+      setProduct(data.length);
     };
     
     fetchlistFeedBack();
@@ -149,7 +160,7 @@ const AdminHome = () => {
             <div className="car-admin-statistical">
               <div className="col-sm-12 card-detail">
                 <div className="statistical" align="center">
-                  <p className="statistical-amount color-Violet">7</p>
+                  <p className="statistical-amount color-Violet">{product}</p>
                   <p className="statistical-deatil">SẢN PHẨM</p>
                 </div>
                 

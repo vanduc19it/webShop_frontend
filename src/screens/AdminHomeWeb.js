@@ -32,7 +32,7 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import AdminHome  from '../components/adminWeb/AdminHome';
 import AdminUser from "../components/adminWeb/AdminUser";
 import AdminCategoies from "../components/adminWeb/AdminCatetory";
-
+import AddCategory from '../components/adminWeb/AddCategory';
 //
 
 function AdminHomeWeb({history}) {
@@ -234,7 +234,7 @@ function AdminHomeWeb({history}) {
 
         
         <div className='col-sm-10 car-main-admin' style={{zIndex: "0"}}>
-
+          {link === "add-category" && (<AddCategory/>)}
           {link === "" && (<AdminHome />)}
           {link === "home" && (<AdminHome />)}
           {link === "user" && (<AdminUser />)}
