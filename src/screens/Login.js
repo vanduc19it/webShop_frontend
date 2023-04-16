@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { login } from "../Redux/Actions/userActions";
+import { login, register } from "../Redux/Actions/userActions";
 import Header from "./../components/Header";
 import Message from "./../components/LoadingError/Error";
 import Loading from "./../components/LoadingError/Loading";
@@ -55,7 +55,14 @@ const Login = ({location, history}) => {
                 console.log(decoded);
                 setEmail(decoded.email)
                 setPassword(123)
-                dispatch(login(email, password))
+                console.log(decoded.email)
+                if(decoded) {
+                  dispatch(register(decoded.name, decoded.email, 123))
+             
+                  
+                  dispatch(login(decoded.email, 123))
+                }
+                
               
               }}
               onError={() => {

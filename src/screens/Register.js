@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { register } from "../Redux/Actions/userActions";
+import { login, register } from "../Redux/Actions/userActions";
 import Header from "./../components/Header";
 import Message from "./../components/LoadingError/Error";
 import Loading from "./../components/LoadingError/Loading";
@@ -20,16 +20,17 @@ const Register = ({location, history}) => {
   const userRegister = useSelector((state) => state.userRegister);
   const { error, loading, userInfo} = userRegister;
 
-  useEffect(()=> {
-    if (userInfo) {
-      history.push(redirect);
-    }
-  },[userInfo, history, redirect]);
+  // useEffect(()=> {
+  //   if (userInfo) {
+  //     history.push(redirect);
+  //   }
+  // },[userInfo, history, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     if(password == confirmPassword) {
       dispatch(register(username, email, password))
+      history.push('/login')
     }
     
   }
@@ -53,16 +54,19 @@ const Register = ({location, history}) => {
           console.log(credentialResponse);
           var decoded = jwt_decode(credentialResponse.credential);
           console.log(decoded);
-          if(decoded.name && decoded.email) {
-            setName(decoded.name)
-            setEmail(decoded.email)
-            setPassword(123)
-            console.log(username, email, password)
+          // if(decoded.name && decoded.email) {
+          //   setName(decoded.name)
+          //   setEmail(decoded.email)
+          //   setPassword(123)
+          //   console.log(username, email, password)
             
-          }
+          // }
           
-          if(email !== ""  && username !== "") {
-            dispatch(register(username, email, password))
+          if(decoded) {
+            dispatch(register(decoded.name, decoded.email, 123))
+          
+            dispatch(login(decoded.email, 123))
+            history.push("/")
           }
           
         }}
