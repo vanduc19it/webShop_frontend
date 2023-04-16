@@ -6,6 +6,7 @@ import { addToCart, removeFromCart, removeFromCartDB } from "../Redux/Actions/Ca
 import { Toast } from 'primereact/toast';
 import {BASE_URL_SERVER} from "../Redux/Constants/index" ;
 import Item from "antd/lib/list/Item";
+import { getInforShop, getShopDetail } from "../Redux/Actions/shopActions";
 
 const baseURL = BASE_URL_SERVER;
 const CartScreen = ({match, location, history}) => {
@@ -22,7 +23,14 @@ const CartScreen = ({match, location, history}) => {
   const {cartItems} = cart;
 
   const totalPrice = cartItems.reduce((a,i) => a + i.quantity * i.price, 0).toFixed(2)
+  const shopInfor = useSelector((state)=> state.shopInfor)
+  useEffect(()=> {
+    dispatch(getShopDetail(userInfo.idUser));
+  },[dispatch, userInfo.idUser])
 
+  const shopDetail = useSelector((state)=> state.shopDetail )
+  const { shopInfo } = shopDetail ;
+  console.log(shopInfo)
   useEffect(()=> {
     if(productId) {
       dispatch(addToCart(productId, quantity))
@@ -74,7 +82,9 @@ const CartScreen = ({match, location, history}) => {
           {
             cartItems.map((item)=> (
 
+              
               <div key={item.product} className="cart-iterm row">
+               
               <div
               onClick={() => handleRemoveProduct(item.product)} 
               className="remove-button d-flex justify-content-center align-items-center">

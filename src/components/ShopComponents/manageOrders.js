@@ -83,8 +83,9 @@ const ManageOrders = (props) => {
               <th>Tổng giá </th>
               <th>Ngày đặt hàng</th>
               <th >Lưu ý người bán</th>
+              {/* <th>status</th> */}
               <th>Trạng thái đơn hàng</th>
-              <th></th> 
+              <th>View</th> 
              
             </tr>
           </thead>
@@ -98,6 +99,7 @@ const ManageOrders = (props) => {
                 <td>{item.totalPrice}</td>
                 <td>{item.createAt}</td>
                 <td>{item.message}</td>
+                {/* <td>{item.status}</td> */}
                 <td><Dropdown className="form-control"id="dropdown" value={status} options={StatusItem} onChange={(e) => setStatus(e.target.value)} placeholder="Manage"/></td>
                 <td style={{    textAlign: "center"}}>
                   <Button id={item._id} variant="outlined" size="small" style={{fontSize:"9px"}}  onClick={handleOpen}>xem chi tiết</Button>
