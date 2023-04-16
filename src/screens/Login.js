@@ -47,7 +47,7 @@ const Login = ({location, history}) => {
           <input type="email" placeholder="Email" value={email} onChange={(e)=> setEmail(e.target.value)} />
           <input type="password" placeholder="Password" value={password} onChange={(e)=> setPassword(e.target.value)} />
           <button type="submit">Login</button>
-          <div className="col-md-12" style={{marginTop: '30px', marginLeft: '80px'}}>
+          <div className="col-md-12" style={{marginTop: '30px', display:"flex", justifyContent:"center"}}>
           <GoogleLogin
               onSuccess={credentialResponse => {
                 console.log(credentialResponse);
