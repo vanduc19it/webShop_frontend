@@ -98,7 +98,7 @@ const ProfileScreen = ({match, history}) => {
 
   const shopDetail = useSelector((state)=> state.shopDetail )
   const { shopInfo } = shopDetail ;
-  
+  console.log(shopInfo)
   const handleOpenModal = () => {
     if(shopInfo._id) {
       //chuyen huong qua trang shop cua toi
@@ -113,7 +113,10 @@ const ProfileScreen = ({match, history}) => {
     e.preventDefault();
     dispatch(createShop(userInfo.idUser,nameShop, phoneShop, addressShop))
     setModalOpen(false);
-    
+    alert("Tạo shop thành công. Vui lòng đăng nhập lại")
+    dispatch(logout())
+    history.push("/login");
+
   }
 
  

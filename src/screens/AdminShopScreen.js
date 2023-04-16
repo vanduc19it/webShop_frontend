@@ -44,7 +44,7 @@ function MyShopScreen({history}) {
   const pathArray = window.location.pathname.split('/');
   const userLogin = useSelector((state)=> state.userLogin)
   const {userInfo} = userLogin;
-  console.log(userInfo.username) ; 
+  console.log(userInfo) ; 
   const [link, setLink] = useState(pathArray[3])
   console.log(pathArray) ; 
   // setLink(pathArray[0])
@@ -87,14 +87,15 @@ function MyShopScreen({history}) {
         bgcolor: stringToColor(name),
         
       },
-      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+      // children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
   }
 
     
   return (
     <>
-    <div className=''>
+    {
+      userInfo &&  <div className=''>
       <div className='row row-full-x'>
         <AppBar style={{boxShadow:"1px 2px 4px #ccc", position:"fixed", zIndex:"1"}} position="static" >
           <Container maxWidth="xl"  style={{backgroundColor: "#fff"}}>
@@ -269,6 +270,8 @@ function MyShopScreen({history}) {
         </div>      
       </div> 
     </div>
+    }
+  
     </>
   );
 };

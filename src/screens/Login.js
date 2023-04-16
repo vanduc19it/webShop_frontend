@@ -61,6 +61,7 @@ const Login = ({location, history}) => {
              
                   
                   dispatch(login(decoded.email, 123))
+                
                 }
                 
               

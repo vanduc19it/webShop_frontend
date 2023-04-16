@@ -12,6 +12,7 @@ const HomeScreen = ({match}) => {
   const pagenumber = match.params.pagenumber ? match.params.pagenumber : 1;
   
   console.log(pagenumber)
+ 
   return (
     <div>
       <Header />

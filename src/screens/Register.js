@@ -28,9 +28,11 @@ const Register = ({location, history}) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if(password == confirmPassword) {
+    if(password == confirmPassword && password !="") {
       dispatch(register(username, email, password))
       history.push('/login')
+    } else {
+      alert("Vui lòng nhập thông tin chính xác")
     }
     
   }
@@ -49,7 +51,7 @@ const Register = ({location, history}) => {
 
           <button type="submit" >Register</button>
           <div className="col-md-12" style={{marginTop: '30px', marginLeft: '80px'}}>
-          <GoogleLogin
+          {/* <GoogleLogin
         onSuccess={credentialResponse => {
           console.log(credentialResponse);
           var decoded = jwt_decode(credentialResponse.credential);
@@ -64,7 +66,6 @@ const Register = ({location, history}) => {
           
           if(decoded) {
             dispatch(register(decoded.name, decoded.email, 123))
-          
             dispatch(login(decoded.email, 123))
             history.push("/")
           }
@@ -74,7 +75,7 @@ const Register = ({location, history}) => {
           console.log('Login Failed');
         }}
         useOneTap
-      />;
+      />; */}
           </div>
           <p>
             <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>

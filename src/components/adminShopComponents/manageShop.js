@@ -24,6 +24,7 @@ const ManageShop = (props) =>{
     const userLogin = useSelector((state)=> state.userLogin)
     const [dialog, setDialog] = useState(false);
     const [shopImage, setShopImage] = useState( userInfor.shopInfor.imgShop);
+    console.log(setShopImage)
     const [imagecrop, setImagecrop] = useState();
 
     // set snackBar
@@ -94,7 +95,7 @@ const ManageShop = (props) =>{
               ...shop,
               address: event.target.value, 
           })
-      }else if(event.targer.id === "phone-shop"){
+      }else if(event.target.id === "phone-shop"){
           setShop({ 
               ...shop,
               phone: event.target.value, 
@@ -223,7 +224,7 @@ return (
                           />
                   )
                   : (
-                    <img src={`${baseURL}images/users/avatar-default.jpg`} alt="shopImage"  style={{marginTop: "auto"}}/>
+                    <img src={`${baseURL}images/users/default-shop.png`} alt="shopImagedefault"  style={{marginTop: "auto"}}/>
                   )
                 }
 
